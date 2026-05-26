@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kompetitor Radar — VentureIQ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy:#0b1a2e;--navy-mid:#112240;--blue:#2d7ff9;--blue-light:#5ba0ff;
+      --ice:#e8f1ff;--ice-dim:#d0e2ff;--white:#ffffff;--offwhite:#f4f7fb;
+      --gray:#7a8ba5;--gray-light:#b0bdd0;--text-dark:#0d1b30;--text-body:#3d4f66;
+      --green:#22c55e;--green-bg:#f0fdf4;--yellow:#f59e0b;--yellow-bg:#fffbeb;
+      --red:#ef4444;--red-bg:#fef2f2;--purple:#8b5cf6;--purple-bg:#f5f3ff;
+      --orange:#f97316;--orange-bg:#fff7ed;
+      --shadow-sm:0 2px 8px rgba(11,26,46,0.06);--shadow-md:0 8px 30px rgba(11,26,46,0.10);
+      --shadow-lg:0 20px 60px rgba(11,26,46,0.14);
+      --radius:12px;--radius-lg:20px;
+      --transition:0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text-body);background:var(--offwhite);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    ::-webkit-scrollbar{width:8px;}::-webkit-scrollbar-track{background:var(--offwhite);}::-webkit-scrollbar-thumb{background:var(--blue);border-radius:4px;}
+    .container{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+    /* NAVBAR */
+    .navbar{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);box-shadow:var(--shadow-sm);}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .nav-logo-icon{width:36px;height:36px;}
+    .nav-logo-text{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-0.5px;}
+    .nav-logo-text span{color:var(--blue);}
+    .nav-links{display:flex;align-items:center;gap:32px;list-style:none;}
+    .nav-links a{font-size:0.9rem;font-weight:600;color:var(--navy);text-decoration:none;transition:color var(--transition);}
+    .nav-links a:hover{color:var(--blue);}
+    .nav-cta{padding:10px 24px;border-radius:8px;background:var(--blue);color:var(--white)!important;font-weight:600;font-size:0.88rem;text-decoration:none;transition:background var(--transition);}
+    .nav-cta:hover{background:var(--blue-light);}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .nav-hamburger span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;}
+
+    /* PAGE HEADER */
+    .page-header{padding:120px 0 48px;background:linear-gradient(165deg,var(--navy) 0%,var(--navy-mid) 100%);position:relative;overflow:hidden;}
+    .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 500px 300px at 70% 40%,rgba(45,127,249,0.12) 0%,transparent 70%),radial-gradient(ellipse 400px 400px at 15% 80%,rgba(45,127,249,0.06) 0%,transparent 60%);}
+    .page-header-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:60px 60px;}
+    .page-header .container{position:relative;z-index:2;}
+    .page-breadcrumb{display:flex;align-items:center;gap:8px;font-size:0.82rem;color:rgba(255,255,255,0.4);margin-bottom:20px;}
+    .page-breadcrumb a{color:rgba(255,255,255,0.5);text-decoration:none;}
+    .page-breadcrumb a:hover{color:#fff;}
+    .page-breadcrumb svg{width:14px;height:14px;stroke:rgba(255,255,255,0.3);}
+    .page-title{font-family:'Sora',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:#fff;line-height:1.2;margin-bottom:12px;}
+    .page-title .accent{background:linear-gradient(135deg,var(--blue-light),#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .page-desc{font-size:1.05rem;color:rgba(255,255,255,0.5);max-width:600px;line-height:1.7;}
+
+    /* MAIN */
+    .main{padding:48px 0 100px;}
+
+    /* STEP WIZARD */
+    .wizard{max-width:860px;margin:0 auto;}
+    .step-indicators{display:flex;gap:0;margin-bottom:32px;background:var(--white);border-radius:var(--radius);padding:4px;box-shadow:var(--shadow-sm);}
+    .step-ind{flex:1;text-align:center;padding:14px 8px;font-size:0.82rem;font-weight:700;color:var(--gray);border-radius:8px;cursor:pointer;transition:all var(--transition);}
+    .step-ind.active{background:var(--blue);color:#fff;}
+    .step-ind.done{color:var(--green);}
+    .step-ind-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ice);font-size:0.72rem;font-weight:800;color:var(--blue);margin-right:6px;vertical-align:middle;}
+    .step-ind.active .step-ind-num{background:rgba(255,255,255,0.2);color:#fff;}
+    .step-ind.done .step-ind-num{background:var(--green-bg);color:var(--green);}
+
+    /* Step panels */
+    .step-panel{display:none;animation:fadeUp 0.4s ease;}
+    .step-panel.active{display:block;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+    .card{background:var(--white);border-radius:var(--radius-lg);padding:36px;box-shadow:var(--shadow-md);border:1px solid rgba(0,0,0,0.04);margin-bottom:24px;}
+    .card-label{font-family:'Sora',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:4px;}
+    .card-title{font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:700;color:var(--text-dark);margin-bottom:8px;}
+    .card-desc{font-size:0.9rem;color:var(--gray);line-height:1.6;margin-bottom:24px;}
+
+    .form-group{margin-bottom:20px;}
+    .form-label{display:block;font-size:0.85rem;font-weight:600;color:var(--text-dark);margin-bottom:8px;}
+    .form-hint{font-size:0.78rem;color:var(--gray);font-weight:400;margin-left:4px;}
+    .form-input{width:100%;padding:14px 16px;border:2px solid var(--ice);border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;color:var(--text-dark);background:var(--offwhite);transition:all var(--transition);}
+    .form-input:focus{outline:none;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(45,127,249,0.1);}
+    .form-input::placeholder{color:var(--gray-light);}
+
+    .slider-group{display:flex;align-items:center;gap:16px;}
+    .slider-group input[type=range]{flex:1;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--ice);outline:none;}
+    .slider-group input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);cursor:pointer;box-shadow:0 2px 8px rgba(45,127,249,0.3);}
+    .slider-val{font-family:'Sora',sans-serif;font-size:0.95rem;font-weight:700;color:var(--blue);min-width:32px;text-align:center;}
+    .slider-labels{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--gray);margin-top:4px;}
+
+    /* Competitor blocks */
+    .comp-block{background:var(--offwhite);border-radius:var(--radius);padding:24px;margin-bottom:16px;border:1px solid var(--ice);}
+    .comp-block-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+    .comp-block-title{font-family:'Sora',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text-dark);}
+    .comp-block-dot{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:8px;}
+    .btn-remove{background:none;border:none;color:var(--red);font-size:0.8rem;font-weight:600;cursor:pointer;padding:4px 8px;border-radius:6px;transition:background var(--transition);}
+    .btn-remove:hover{background:var(--red-bg);}
+    .btn-add-comp{width:100%;padding:14px;border:2px dashed var(--ice-dim);border-radius:var(--radius);background:transparent;color:var(--blue);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all var(--transition);margin-bottom:20px;}
+    .btn-add-comp:hover{background:var(--ice);border-color:var(--blue);}
+
+    /* Nav buttons */
+    .step-nav{display:flex;justify-content:space-between;gap:16px;margin-top:8px;}
+    .btn-nav{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all var(--transition);border:none;}
+    .btn-prev{background:var(--offwhite);color:var(--text-body);border:1px solid rgba(0,0,0,0.08);}
+    .btn-prev:hover{background:var(--ice);}
+    .btn-next{background:var(--blue);color:#fff;box-shadow:0 4px 16px rgba(45,127,249,0.3);}
+    .btn-next:hover{background:var(--blue-light);transform:translateY(-1px);}
+    .btn-nav svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+    /* ══ RESULT SECTION ══ */
+    /* Position Map */
+    .map-card{background:var(--white);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-md);border:1px solid rgba(0,0,0,0.04);margin-bottom:24px;}
+    .map-canvas-wrap{position:relative;width:100%;aspect-ratio:4/3;margin-bottom:16px;}
+    .map-canvas-wrap canvas{width:100%;height:100%;border-radius:var(--radius);border:1px solid var(--ice);}
+    .map-legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
+    .map-legend-item{display:flex;align-items:center;gap:6px;font-size:0.82rem;font-weight:600;color:var(--text-body);}
+    .map-legend-dot{width:12px;height:12px;border-radius:50%;}
+
+    /* Gap Analysis */
+    .gap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+    .gap-item{padding:20px;border-radius:var(--radius);border:1px solid var(--ice);background:var(--offwhite);}
+    .gap-item-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+    .gap-item-icon svg{width:20px;height:20px;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none;}
+    .gap-item-title{font-family:'Sora',sans-serif;font-size:0.92rem;font-weight:700;color:var(--text-dark);margin-bottom:6px;}
+    .gap-item-desc{font-size:0.82rem;color:var(--gray);line-height:1.6;}
+
+    /* Battle Cards */
+    .battle-table-wrap{overflow-x:auto;margin-bottom:16px;}
+    .battle-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+    .battle-table th{padding:14px 16px;text-align:left;font-family:'Sora',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--gray);background:var(--offwhite);border-bottom:2px solid var(--ice);}
+    .battle-table th:first-child{border-radius:var(--radius) 0 0 0;}
+    .battle-table th:last-child{border-radius:0 var(--radius) 0 0;}
+    .battle-table td{padding:14px 16px;border-bottom:1px solid var(--ice);color:var(--text-body);}
+    .battle-table tr:last-child td{border-bottom:none;}
+    .battle-table .you-col{background:var(--ice);font-weight:600;color:var(--text-dark);}
+    .battle-table th.you-col{background:var(--blue);color:#fff;}
+    .score-bar-cell{position:relative;}
+    .score-bar{height:8px;border-radius:4px;transition:width 0.8s ease;}
+    .score-bar-val{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:'Sora',sans-serif;font-size:0.75rem;font-weight:700;}
+
+    /* Radar Chart */
+    .radar-wrap{position:relative;width:100%;max-width:420px;margin:0 auto;aspect-ratio:1;}
+    .radar-wrap canvas{width:100%;height:100%;}
+
+    /* Differentiation */
+    .diff-list{display:flex;flex-direction:column;gap:14px;}
+    .diff-item{display:flex;gap:14px;padding:18px;background:var(--offwhite);border-radius:var(--radius);border-left:3px solid var(--blue);}
+    .diff-item-num{font-family:'Sora',sans-serif;font-size:0.82rem;font-weight:800;color:var(--blue);min-width:24px;}
+    .diff-item-content{}
+    .diff-item-title{font-family:'Sora',sans-serif;font-size:0.9rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+    .diff-item-text{font-size:0.85rem;color:var(--gray);line-height:1.6;}
+
+    /* Actions */
+    .result-actions{display:flex;gap:16px;justify-content:center;margin-top:32px;}
+    .btn-action{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all var(--transition);border:none;text-decoration:none;}
+    .btn-action.secondary{background:var(--offwhite);color:var(--text-body);border:1px solid rgba(0,0,0,0.08);}
+    .btn-action.secondary:hover{background:var(--ice);}
+    .btn-action.primary{background:var(--blue);color:#fff;box-shadow:0 4px 16px rgba(45,127,249,0.3);}
+    .btn-action.primary:hover{background:var(--blue-light);}
+    .btn-action svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
+
+    /* FOOTER */
+    .footer{background:var(--navy);padding:40px 0;border-top:1px solid rgba(255,255,255,0.05);}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;}
+    .footer-brand{display:flex;align-items:center;gap:10px;}
+    .footer-brand-text{font-family:'Sora',sans-serif;font-size:1rem;font-weight:800;color:#fff;}
+    .footer-brand-text span{color:var(--blue-light);}
+    .footer-copy{font-size:0.8rem;color:rgba(255,255,255,0.25);}
+
+    @media(max-width:768px){
+      .navbar{padding:0 24px;}.nav-links{display:none;}.nav-hamburger{display:flex;}
+      .nav-links.open{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:#fff;padding:24px;gap:20px;box-shadow:var(--shadow-md);}
+      .container{padding:0 20px;}.card{padding:24px 20px;}
+      .gap-grid{grid-template-columns:1fr;}
+      .step-ind span:not(.step-ind-num){display:none;}
+      .footer-inner{flex-direction:column;gap:12px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="8" fill="#2d7ff9"/><path d="M10 11l8 14 8-14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="11" r="2.5" fill="#93c5fd"/></svg>
+    <span class="nav-logo-text">Venture<span>IQ</span></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Beranda</a></li>
+    <li><a href="health-score.html">Health Score</a></li>
+    <li><a href="pricing.html">Smart Pricing</a></li>
+    <li><a href="branding.html">Brand Generator</a></li>
+    <li><a href="competitor.html" class="nav-cta">Kompetitor Radar</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+  <div class="page-header-grid"></div>
+  <div class="container">
+    <div class="page-breadcrumb">
+      <a href="index.html">Beranda</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      <span>Kompetitor Radar</span>
+    </div>
+    <h1 class="page-title">Kompetitor <span class="accent">Radar</span></h1>
+    <p class="page-desc">Analisis posisi bisnis Anda dibanding kompetitor. Temukan celah pasar, keunggulan kompetitif, dan strategi diferensiasi — seperti punya konsultan bisnis pribadi.</p>
+  </div>
+</section>
+
+<!-- MAIN -->
+<section class="main">
+  <div class="container">
+    <div class="wizard">
+
+      <!-- Step Indicators -->
+      <div class="step-indicators" id="stepIndicators">
+        <div class="step-ind active" data-step="0"><span class="step-ind-num">1</span> <span>Bisnis Anda</span></div>
+        <div class="step-ind" data-step="1"><span class="step-ind-num">2</span> <span>Kompetitor</span></div>
+        <div class="step-ind" data-step="2"><span class="step-ind-num">3</span> <span>Hasil Analisis</span></div>
+      </div>
+
+      <!-- STEP 1: Your Business -->
+      <div class="step-panel active" id="step0">
+        <div class="card">
+          <div class="card-label">Langkah 1 dari 3</div>
+          <div class="card-title">Tentang Bisnis Anda</div>
+          <div class="card-desc">Isi informasi dasar bisnis Anda. Data ini akan digunakan untuk membandingkan posisi Anda dengan kompetitor.</div>
+
+          <div class="form-group">
+            <label class="form-label">Nama Bisnis</label>
+            <input type="text" class="form-input" id="myName" placeholder="Contoh: Warung Nasi Bakar Bu Tini"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Produk / Layanan Utama</label>
+            <input type="text" class="form-input" id="myProduct" placeholder="Contoh: Nasi bakar ayam, nasi bakar ikan"/>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Harga Rata-rata Produk <span class="form-hint">(skala 1-10, 1=sangat murah, 10=sangat mahal)</span></label>
+            <div class="slider-group">
+              <input type="range" min="1" max="10" value="5" id="myPrice"/>
+              <span class="slider-val" id="myPriceVal">5</span>
+            </div>
+            <div class="slider-labels"><span>Sangat Murah</span><span>Sangat Mahal</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Kualitas Produk <span class="form-hint">(skala 1-10)</span></label>
+            <div class="slider-group">
+              <input type="range" min="1" max="10" value="7" id="myQuality"/>
+              <span class="slider-val" id="myQualityVal">7</span>
+            </div>
+            <div class="slider-labels"><span>Standar</span><span>Premium</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pelayanan / Customer Service <span class="form-hint">(skala 1-10)</span></label>
+            <div class="slider-group">
+              <input type="range" min="1" max="10" value="7" id="myService"/>
+              <span class="slider-val" id="myServiceVal">7</span>
+            </div>
+            <div class="slider-labels"><span>Minimal</span><span>Luar Biasa</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Kehadiran Online / Marketing <span class="form-hint">(skala 1-10)</span></label>
+            <div class="slider-group">
+              <input type="range" min="1" max="10" value="5" id="myMarketing"/>
+              <span class="slider-val" id="myMarketingVal">5</span>
+            </div>
+            <div class="slider-labels"><span>Belum Ada</span><span>Sangat Aktif</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Variasi Produk <span class="form-hint">(skala 1-10)</span></label>
+            <div class="slider-group">
+              <input type="range" min="1" max="10" value="6" id="myVariety"/>
+              <span class="slider-val" id="myVarietyVal">6</span>
+            </div>
+            <div class="slider-labels"><span>Sedikit</span><span>Sangat Banyak</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Keunggulan Utama <span class="form-hint">(apa yang membuat Anda beda?)</span></label>
+            <input type="text" class="form-input" id="myStrength" placeholder="Contoh: Resep turun temurun, bumbu rahasia"/>
+          </div>
+        </div>
+        <div class="step-nav">
+          <div></div>
+          <button class="btn-nav btn-next" id="toStep1">Lanjut: Tambah Kompetitor <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Competitors -->
+      <div class="step-panel" id="step1">
+        <div class="card">
+          <div class="card-label">Langkah 2 dari 3</div>
+          <div class="card-title">Data Kompetitor</div>
+          <div class="card-desc">Tambahkan 1-3 kompetitor utama Anda. Tidak perlu data yang sempurna — perkiraan terbaik Anda sudah cukup.</div>
+          <div id="compList"></div>
+          <button class="btn-add-comp" id="btnAddComp">+ Tambah Kompetitor</button>
+        </div>
+        <div class="step-nav">
+          <button class="btn-nav btn-prev" id="backStep0"><svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg> Kembali</button>
+          <button class="btn-nav btn-next" id="toStep2">Analisis Sekarang <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Results -->
+      <div class="step-panel" id="step2">
+        <div id="resultContainer"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="8" fill="#2d7ff9"/><path d="M10 11l8 14 8-14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="11" r="2.5" fill="#93c5fd"/></svg>
+        <span class="footer-brand-text">Venture<span>IQ</span></span>
+      </div>
+      <div class="footer-copy">&copy; 2026 VentureIQ. Dibuat untuk #JuaraVibeCoding</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════
+const COMP_COLORS = ['#ef4444','#f59e0b','#8b5cf6'];
+const COMP_NAMES_DEFAULT = ['Kompetitor A','Kompetitor B','Kompetitor C'];
+const MY_COLOR = '#2d7ff9';
+const DIMENSIONS = ['Harga','Kualitas','Pelayanan','Marketing','Variasi'];
+let competitors = [];
+let currentStep = 0;
+
+// ══════════════════════════════════════════
+// SLIDER SYNC
+// ══════════════════════════════════════════
+document.querySelectorAll('input[type=range]').forEach(s => {
+  const valEl = document.getElementById(s.id+'Val');
+  if(valEl){ s.addEventListener('input',()=>valEl.textContent=s.value); }
+});
+
+// ══════════════════════════════════════════
+// COMPETITOR MANAGEMENT
+// ══════════════════════════════════════════
+function addCompetitor(){
+  if(competitors.length>=3) return;
+  const idx = competitors.length;
+  competitors.push({name:'',price:5,quality:5,service:5,marketing:5,variety:5,strength:''});
+  renderCompetitors();
+}
+
+function removeCompetitor(idx){
+  competitors.splice(idx,1);
+  renderCompetitors();
+}
+
+function renderCompetitors(){
+  const list = document.getElementById('compList');
+  list.innerHTML = competitors.map((c,i) => `
+    <div class="comp-block">
+      <div class="comp-block-header">
+        <div class="comp-block-title"><span class="comp-block-dot" style="background:${COMP_COLORS[i]}"></span>Kompetitor ${i+1}</div>
+        <button class="btn-remove" onclick="removeCompetitor(${i})">Hapus</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nama Kompetitor</label>
+        <input type="text" class="form-input comp-input" data-idx="${i}" data-field="name" value="${c.name}" placeholder="${COMP_NAMES_DEFAULT[i]}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Harga <span class="form-hint">(1-10)</span></label>
+        <div class="slider-group">
+          <input type="range" min="1" max="10" value="${c.price}" class="comp-slider" data-idx="${i}" data-field="price"/>
+          <span class="slider-val">${c.price}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Kualitas <span class="form-hint">(1-10)</span></label>
+        <div class="slider-group">
+          <input type="range" min="1" max="10" value="${c.quality}" class="comp-slider" data-idx="${i}" data-field="quality"/>
+          <span class="slider-val">${c.quality}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pelayanan <span class="form-hint">(1-10)</span></label>
+        <div class="slider-group">
+          <input type="range" min="1" max="10" value="${c.service}" class="comp-slider" data-idx="${i}" data-field="service"/>
+          <span class="slider-val">${c.service}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Marketing <span class="form-hint">(1-10)</span></label>
+        <div class="slider-group">
+          <input type="range" min="1" max="10" value="${c.marketing}" class="comp-slider" data-idx="${i}" data-field="marketing"/>
+          <span class="slider-val">${c.marketing}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Variasi <span class="form-hint">(1-10)</span></label>
+        <div class="slider-group">
+          <input type="range" min="1" max="10" value="${c.variety}" class="comp-slider" data-idx="${i}" data-field="variety"/>
+          <span class="slider-val">${c.variety}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Attach events
+  list.querySelectorAll('.comp-input').forEach(el=>{
+    el.addEventListener('input',()=>{
+      competitors[el.dataset.idx][el.dataset.field]=el.value;
+    });
+  });
+  list.querySelectorAll('.comp-slider').forEach(el=>{
+    el.addEventListener('input',()=>{
+      competitors[el.dataset.idx][el.dataset.field]=parseInt(el.value);
+      el.nextElementSibling.textContent=el.value;
+    });
+  });
+
+  document.getElementById('btnAddComp').style.display = competitors.length>=3?'none':'block';
+}
+
+document.getElementById('btnAddComp').addEventListener('click',addCompetitor);
+
+// Init with 1 competitor
+addCompetitor();
+
+// ══════════════════════════════════════════
+// STEP NAVIGATION
+// ══════════════════════════════════════════
+function goToStep(step){
+  currentStep=step;
+  document.querySelectorAll('.step-panel').forEach((p,i)=>{p.classList.toggle('active',i===step);});
+  document.querySelectorAll('.step-ind').forEach((ind,i)=>{
+    ind.classList.remove('active','done');
+    if(i===step) ind.classList.add('active');
+    else if(i<step) ind.classList.add('done');
+  });
+  window.scrollTo({top:document.querySelector('.wizard').offsetTop-90,behavior:'smooth'});
+}
+
+document.getElementById('toStep1').addEventListener('click',()=>{
+  const name=document.getElementById('myName').value.trim();
+  if(!name){alert('Masukkan nama bisnis Anda terlebih dahulu.');return;}
+  goToStep(1);
+});
+document.getElementById('backStep0').addEventListener('click',()=>goToStep(0));
+document.getElementById('toStep2').addEventListener('click',()=>{
+  // Validate at least 1 competitor has a name or use default
+  competitors.forEach((c,i)=>{if(!c.name.trim()) c.name=COMP_NAMES_DEFAULT[i];});
+  goToStep(2);
+  generateResults();
+});
+
+document.querySelectorAll('.step-ind').forEach(ind=>{
+  ind.addEventListener('click',()=>{
+    const s=parseInt(ind.dataset.step);
+    if(s<=currentStep) goToStep(s);
+  });
+});
+
+// ══════════════════════════════════════════
+// RESULTS
+// ══════════════════════════════════════════
+function getMyData(){
+  return {
+    name:document.getElementById('myName').value.trim(),
+    product:document.getElementById('myProduct').value.trim(),
+    price:parseInt(document.getElementById('myPrice').value),
+    quality:parseInt(document.getElementById('myQuality').value),
+    service:parseInt(document.getElementById('myService').value),
+    marketing:parseInt(document.getElementById('myMarketing').value),
+    variety:parseInt(document.getElementById('myVariety').value),
+    strength:document.getElementById('myStrength').value.trim()
+  };
+}
+
+function generateResults(){
+  const me = getMyData();
+  const container = document.getElementById('resultContainer');
+
+  container.innerHTML = `
+    <!-- Position Map -->
+    <div class="map-card">
+      <div class="card-label">Peta Posisi</div>
+      <div class="card-title">Posisi Bisnis Anda di Pasar</div>
+      <div class="card-desc">Sumbu horizontal = Harga (murah ke mahal), sumbu vertikal = Kualitas (standar ke premium). Ukuran lingkaran menunjukkan kekuatan marketing.</div>
+      <div class="map-canvas-wrap"><canvas id="positionMap"></canvas></div>
+      <div class="map-legend" id="mapLegend"></div>
+    </div>
+
+    <!-- Radar Chart -->
+    <div class="map-card">
+      <div class="card-label">Perbandingan 5 Dimensi</div>
+      <div class="card-title">Radar Chart — Anda vs Kompetitor</div>
+      <div class="card-desc">Visualisasi perbandingan di lima dimensi utama bisnis. Area yang lebih luas menunjukkan posisi yang lebih kuat secara keseluruhan.</div>
+      <div class="radar-wrap"><canvas id="radarChart"></canvas></div>
+      <div class="map-legend" id="radarLegend"></div>
+    </div>
+
+    <!-- Battle Table -->
+    <div class="card">
+      <div class="card-label">Battle Card</div>
+      <div class="card-title">Perbandingan Langsung</div>
+      <div class="battle-table-wrap"><table class="battle-table" id="battleTable"></table></div>
+    </div>
+
+    <!-- Gap Analysis -->
+    <div class="card">
+      <div class="card-label">Gap Analysis</div>
+      <div class="card-title">Celah Pasar &amp; Peluang</div>
+      <div class="card-desc">Berdasarkan perbandingan data, berikut area di mana Anda memiliki keunggulan dan area yang perlu diperkuat.</div>
+      <div class="gap-grid" id="gapGrid"></div>
+    </div>
+
+    <!-- Differentiation -->
+    <div class="card">
+      <div class="card-label">Strategi</div>
+      <div class="card-title">Rekomendasi Diferensiasi</div>
+      <div class="card-desc">Langkah konkret yang bisa Anda ambil untuk memperkuat posisi kompetitif bisnis Anda.</div>
+      <div class="diff-list" id="diffList"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-action secondary" onclick="goToStep(0)">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        Analisis Ulang
+      </button>
+      <button class="btn-action primary" onclick="alert('Gunakan fitur screenshot bawaan perangkat Anda.\\n\\nWindows: Win + Shift + S\\nmacOS: Cmd + Shift + 4\\nHP: Tombol Power + Volume Down')">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Screenshot Hasil
+      </button>
+    </div>
+  `;
+
+  drawPositionMap(me);
+  drawRadarChart(me);
+  renderBattleTable(me);
+  renderGapAnalysis(me);
+  renderDifferentiation(me);
+}
+
+// ══════════════════════════════════════════
+// POSITION MAP (Canvas)
+// ══════════════════════════════════════════
+function drawPositionMap(me){
+  const canvas = document.getElementById('positionMap');
+  const rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = rect.width * 2;
+  canvas.height = rect.height * 2;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(2,2);
+  const W = rect.width, H = rect.height;
+  const pad = 50;
+
+  // Background
+  ctx.fillStyle='#f8fafd';ctx.fillRect(0,0,W,H);
+
+  // Quadrant colors
+  const qW=(W-pad*2)/2, qH=(H-pad*2)/2;
+  ctx.globalAlpha=0.08;
+  ctx.fillStyle='#22c55e';ctx.fillRect(pad,pad,qW,qH); // top-left: murah+premium
+  ctx.fillStyle='#2d7ff9';ctx.fillRect(pad+qW,pad,qW,qH); // top-right: mahal+premium
+  ctx.fillStyle='#f59e0b';ctx.fillRect(pad,pad+qH,qW,qH); // bottom-left
+  ctx.fillStyle='#ef4444';ctx.fillRect(pad+qW,pad+qH,qW,qH); // bottom-right
+  ctx.globalAlpha=1;
+
+  // Grid lines
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+  for(let i=1;i<=9;i++){
+    const x=pad+(W-pad*2)*i/10;
+    ctx.beginPath();ctx.moveTo(x,pad);ctx.lineTo(x,H-pad);ctx.stroke();
+    const y=pad+(H-pad*2)*i/10;
+    ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  // Axes
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(pad,H-pad);ctx.lineTo(W-pad,H-pad);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(pad,H-pad);ctx.lineTo(pad,pad);ctx.stroke();
+
+  // Labels
+  ctx.font='600 11px Sora,sans-serif';ctx.fillStyle='#64748b';ctx.textAlign='center';
+  ctx.fillText('HARGA',W/2,H-12);
+  ctx.save();ctx.translate(14,H/2);ctx.rotate(-Math.PI/2);ctx.fillText('KUALITAS',0,0);ctx.restore();
+  ctx.font='500 10px Plus Jakarta Sans,sans-serif';ctx.fillStyle='#94a3b8';
+  ctx.textAlign='left';ctx.fillText('Murah',pad+4,H-pad+16);
+  ctx.textAlign='right';ctx.fillText('Mahal',W-pad-4,H-pad+16);
+  ctx.textAlign='left';ctx.fillText('Standar',pad+4,H-pad-8);
+  ctx.fillText('Premium',pad+4,pad+16);
+
+  // Quadrant labels
+  ctx.font='600 10px Sora,sans-serif';ctx.globalAlpha=0.4;
+  ctx.fillStyle='#22c55e';ctx.textAlign='center';ctx.fillText('VALUE LEADER',pad+qW/2,pad+24);
+  ctx.fillStyle='#2d7ff9';ctx.fillText('PREMIUM',pad+qW+qW/2,pad+24);
+  ctx.fillStyle='#f59e0b';ctx.fillText('BUDGET',pad+qW/2,pad+qH+24);
+  ctx.fillStyle='#ef4444';ctx.fillText('OVERPRICED?',pad+qW+qW/2,pad+qH+24);
+  ctx.globalAlpha=1;
+
+  // Plot function
+  function plot(price,quality,marketing,color,label){
+    const x = pad + (price-1)/9*(W-pad*2);
+    const y = (H-pad) - (quality-1)/9*(H-pad*2);
+    const r = 12 + marketing*2.5;
+
+    ctx.globalAlpha=0.15;ctx.fillStyle=color;
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+    ctx.globalAlpha=0.9;ctx.fillStyle=color;
+    ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);ctx.fill();
+    ctx.globalAlpha=1;ctx.fillStyle=color;ctx.font='700 11px Sora,sans-serif';ctx.textAlign='center';
+    ctx.fillText(label,x,y-r-6);
+  }
+
+  // Plot me
+  plot(me.price,me.quality,me.marketing,MY_COLOR,me.name);
+
+  // Plot competitors
+  competitors.forEach((c,i)=>{
+    plot(c.price,c.quality,c.marketing,COMP_COLORS[i],c.name);
+  });
+
+  // Legend
+  const legend = document.getElementById('mapLegend');
+  legend.innerHTML = `<div class="map-legend-item"><span class="map-legend-dot" style="background:${MY_COLOR}"></span>${me.name} (Anda)</div>`
+    + competitors.map((c,i)=>`<div class="map-legend-item"><span class="map-legend-dot" style="background:${COMP_COLORS[i]}"></span>${c.name}</div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// RADAR CHART (Canvas)
+// ══════════════════════════════════════════
+function drawRadarChart(me){
+  const canvas = document.getElementById('radarChart');
+  const size = Math.min(canvas.parentElement.getBoundingClientRect().width, 420);
+  canvas.width = size*2; canvas.height = size*2;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(2,2);
+  const cx=size/2, cy=size/2, maxR=size/2-50;
+  const dims = [me.price,me.quality,me.service,me.marketing,me.variety];
+  const labels = DIMENSIONS;
+  const n = dims.length;
+
+  function getPoint(dimVal, idx, radius){
+    const angle = (Math.PI*2*idx/n) - Math.PI/2;
+    const r = (dimVal/10)*radius;
+    return { x: cx + r*Math.cos(angle), y: cy + r*Math.sin(angle) };
+  }
+
+  // Grid
+  for(let ring=2;ring<=10;ring+=2){
+    ctx.beginPath();ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+    for(let i=0;i<=n;i++){
+      const p=getPoint(ring,i%n,maxR);
+      i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);
+    }
+    ctx.closePath();ctx.stroke();
+  }
+
+  // Axis lines + labels
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;
+  ctx.font='600 11px Sora,sans-serif';ctx.fillStyle='#475569';ctx.textAlign='center';
+  for(let i=0;i<n;i++){
+    const p=getPoint(10,i,maxR);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p.x,p.y);ctx.stroke();
+    const lp=getPoint(10,i,maxR+20);
+    ctx.fillText(labels[i],lp.x,lp.y+4);
+  }
+
+  // Draw polygon
+  function drawPoly(values,color,fill){
+    ctx.beginPath();
+    values.forEach((v,i)=>{
+      const p=getPoint(v,i,maxR);
+      i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);
+    });
+    ctx.closePath();
+    if(fill){ctx.globalAlpha=0.12;ctx.fillStyle=color;ctx.fill();ctx.globalAlpha=1;}
+    ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.stroke();
+    // Dots
+    values.forEach((v,i)=>{
+      const p=getPoint(v,i,maxR);
+      ctx.fillStyle=color;ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fill();
+    });
+  }
+
+  drawPoly(dims,MY_COLOR,true);
+  competitors.forEach((c,i)=>{
+    drawPoly([c.price,c.quality,c.service,c.marketing,c.variety],COMP_COLORS[i],true);
+  });
+
+  // Legend
+  const legend = document.getElementById('radarLegend');
+  legend.innerHTML = `<div class="map-legend-item"><span class="map-legend-dot" style="background:${MY_COLOR}"></span>${me.name} (Anda)</div>`
+    + competitors.map((c,i)=>`<div class="map-legend-item"><span class="map-legend-dot" style="background:${COMP_COLORS[i]}"></span>${c.name}</div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// BATTLE TABLE
+// ══════════════════════════════════════════
+function renderBattleTable(me){
+  const table = document.getElementById('battleTable');
+  const fields = [
+    {key:'price',label:'Harga'},
+    {key:'quality',label:'Kualitas'},
+    {key:'service',label:'Pelayanan'},
+    {key:'marketing',label:'Marketing'},
+    {key:'variety',label:'Variasi'}
+  ];
+  const all = [me,...competitors];
+  const colors = [MY_COLOR,...COMP_COLORS];
+
+  let html = '<thead><tr><th>Dimensi</th>';
+  all.forEach((a,i)=>{
+    html += `<th class="${i===0?'you-col':''}">${a.name}${i===0?' (Anda)':''}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  fields.forEach(f=>{
+    html += '<tr>';
+    html += `<td style="font-weight:600;color:var(--text-dark);">${f.label}</td>`;
+    all.forEach((a,i)=>{
+      const val = a[f.key];
+      const maxVal = Math.max(...all.map(x=>x[f.key]));
+      const isMax = val===maxVal;
+      html += `<td class="${i===0?'you-col':''}">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="flex:1;height:8px;background:var(--ice);border-radius:4px;overflow:hidden;">
+            <div style="width:${val*10}%;height:100%;background:${colors[i]};border-radius:4px;"></div>
+          </div>
+          <span style="font-family:Sora,sans-serif;font-size:0.82rem;font-weight:700;color:${isMax?colors[i]:'var(--gray)'};">${val}</span>
+        </div>
+      </td>`;
+    });
+    html += '</tr>';
+  });
+
+  // Total row
+  html += '<tr style="border-top:2px solid var(--ice);">';
+  html += '<td style="font-weight:700;color:var(--text-dark);font-family:Sora,sans-serif;">Total Score</td>';
+  all.forEach((a,i)=>{
+    const total = fields.reduce((s,f)=>s+a[f.key],0);
+    const maxTotal = Math.max(...all.map(x=>fields.reduce((s,f)=>s+x[f.key],0)));
+    html += `<td class="${i===0?'you-col':''}" style="font-family:Sora,sans-serif;font-weight:800;font-size:1.1rem;color:${total===maxTotal?colors[i]:'var(--text-dark)'};">${total}/50</td>`;
+  });
+  html += '</tr></tbody>';
+
+  table.innerHTML = html;
+}
+
+// ══════════════════════════════════════════
+// GAP ANALYSIS
+// ══════════════════════════════════════════
+function renderGapAnalysis(me){
+  const grid = document.getElementById('gapGrid');
+  const fields = ['price','quality','service','marketing','variety'];
+  const labels = {price:'Harga',quality:'Kualitas',service:'Pelayanan',marketing:'Marketing',variety:'Variasi'};
+  const icons = {
+    strength: '<svg viewBox="0 0 24 24" stroke="#22c55e"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    weakness: '<svg viewBox="0 0 24 24" stroke="#ef4444"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+    opportunity: '<svg viewBox="0 0 24 24" stroke="#f59e0b"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
+    watch: '<svg viewBox="0 0 24 24" stroke="#8b5cf6"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+  };
+  const bgColors = {strength:'var(--green-bg)',weakness:'var(--red-bg)',opportunity:'var(--yellow-bg)',watch:'var(--purple-bg)'};
+
+  const gaps = [];
+
+  fields.forEach(f=>{
+    const myVal = me[f];
+    const avgComp = competitors.reduce((s,c)=>s+c[f],0)/competitors.length;
+    const diff = myVal - avgComp;
+
+    if(diff >= 2){
+      gaps.push({type:'strength',title:`Keunggulan: ${labels[f]}`,desc:`Skor Anda (${myVal}) jauh di atas rata-rata kompetitor (${avgComp.toFixed(1)}). Ini adalah keunggulan kompetitif utama yang harus dipertahankan dan ditonjolkan dalam pemasaran.`});
+    } else if(diff >= 0.5){
+      gaps.push({type:'strength',title:`Unggul di ${labels[f]}`,desc:`Anda sedikit lebih baik (${myVal} vs ${avgComp.toFixed(1)}). Pertahankan dan tingkatkan sedikit lagi untuk menjadikan ini pembeda utama Anda.`});
+    } else if(diff <= -2){
+      gaps.push({type:'weakness',title:`Perlu Perbaikan: ${labels[f]}`,desc:`Skor Anda (${myVal}) tertinggal cukup jauh dari kompetitor (${avgComp.toFixed(1)}). Ini area kritis yang perlu segera ditingkatkan agar tidak kehilangan pelanggan.`});
+    } else if(diff <= -0.5){
+      gaps.push({type:'opportunity',title:`Peluang di ${labels[f]}`,desc:`Anda sedikit di bawah kompetitor (${myVal} vs ${avgComp.toFixed(1)}). Dengan sedikit peningkatan di area ini, Anda bisa merebut pangsa pasar mereka.`});
+    } else {
+      gaps.push({type:'watch',title:`Seimbang: ${labels[f]}`,desc:`Posisi Anda (${myVal}) seimbang dengan kompetitor (${avgComp.toFixed(1)}). Pantau terus dan cari cara untuk unggul di dimensi lain.`});
+    }
+  });
+
+  // Sort: weakness first, then opportunity, watch, strength
+  const order = {weakness:0,opportunity:1,watch:2,strength:3};
+  gaps.sort((a,b)=>order[a.type]-order[b.type]);
+
+  grid.innerHTML = gaps.map(g=>`
+    <div class="gap-item">
+      <div class="gap-item-icon" style="background:${bgColors[g.type]}">${icons[g.type]}</div>
+      <div class="gap-item-title">${g.title}</div>
+      <div class="gap-item-desc">${g.desc}</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════
+// DIFFERENTIATION RECOMMENDATIONS
+// ══════════════════════════════════════════
+function renderDifferentiation(me){
+  const list = document.getElementById('diffList');
+  const recs = [];
+  const avgPrice = competitors.reduce((s,c)=>s+c.price,0)/competitors.length;
+  const avgQuality = competitors.reduce((s,c)=>s+c.quality,0)/competitors.length;
+  const avgService = competitors.reduce((s,c)=>s+c.service,0)/competitors.length;
+  const avgMarketing = competitors.reduce((s,c)=>s+c.marketing,0)/competitors.length;
+  const avgVariety = competitors.reduce((s,c)=>s+c.variety,0)/competitors.length;
+
+  // Price-quality positioning
+  if(me.price<=avgPrice && me.quality>=avgQuality){
+    recs.push({title:'Perkuat Posisi Value Leader',text:`Anda sudah berada di posisi ideal: harga lebih terjangkau dengan kualitas lebih baik. Komunikasikan ini secara agresif — gunakan perbandingan harga langsung dalam materi promosi Anda. Buat tagline yang menekankan "kualitas premium, harga bersahabat".`});
+  } else if(me.price>avgPrice && me.quality>avgQuality){
+    recs.push({title:'Justifikasi Harga Premium',text:`Harga Anda lebih tinggi tapi kualitas juga lebih baik. Pastikan pelanggan memahami mengapa mereka harus membayar lebih. Tambahkan testimoni, sertifikasi, atau cerita di balik produk untuk memperkuat persepsi premium.`});
+  } else if(me.quality<avgQuality){
+    recs.push({title:'Tingkatkan Kualitas Produk',text:`Kualitas produk Anda di bawah rata-rata kompetitor. Ini risiko besar untuk kehilangan pelanggan. Fokus pada peningkatan kualitas bahan baku, proses produksi, atau packaging sebelum menaikkan harga.`});
+  }
+
+  // Service gap
+  if(me.service < avgService){
+    recs.push({title:'Investasi di Pelayanan Pelanggan',text:`Pelayanan Anda di bawah kompetitor. Mulai dari hal kecil: respons lebih cepat di WhatsApp, sapa pelanggan dengan nama, follow-up setelah pembelian. Pelayanan yang baik adalah pembeda yang sulit ditiru.`});
+  } else if(me.service >= 8){
+    recs.push({title:'Jadikan Pelayanan sebagai Senjata Utama',text:`Pelayanan Anda sudah sangat baik — ini aset berharga. Minta pelanggan menulis review tentang pengalaman mereka. Gunakan testimoni pelayanan sebagai konten media sosial.`});
+  }
+
+  // Marketing gap
+  if(me.marketing < avgMarketing){
+    recs.push({title:'Perkuat Kehadiran Digital',text:`Kompetitor Anda lebih aktif secara online. Mulai dari platform yang paling mudah: buat konten rutin di Instagram atau TikTok, minta pelanggan tag bisnis Anda, dan manfaatkan Google Business Profile agar mudah ditemukan.`});
+  }
+
+  if(me.marketing < 5){
+    recs.push({title:'Bangun Fondasi Marketing Online',text:`Kehadiran online Anda masih minim. Di era digital ini, pelanggan mencari dan membandingkan bisnis secara online sebelum membeli. Buat minimal akun Instagram bisnis dan Google Maps listing minggu ini.`});
+  }
+
+  // Variety
+  if(me.variety < avgVariety - 1){
+    recs.push({title:'Tambah Variasi Produk Strategis',text:`Kompetitor menawarkan variasi lebih banyak. Tidak perlu banyak — tambahkan 2-3 produk yang melengkapi lini utama Anda. Riset dulu: produk apa yang pelanggan sering tanyakan tapi belum Anda sediakan?`});
+  }
+
+  // Strength-based
+  if(me.strength){
+    recs.push({title:'Tonjolkan Keunikan Anda',text:`Keunggulan "${me.strength}" adalah pembeda yang sangat berharga. Jadikan ini pusat dari semua komunikasi brand Anda — di bio media sosial, banner toko, kemasan produk, dan setiap percakapan dengan pelanggan.`});
+  }
+
+  // Universal
+  recs.push({title:'Bangun Komunitas Pelanggan Loyal',text:'Terlepas dari data kompetitor, UMKM yang paling bertahan lama adalah yang punya pelanggan setia. Buat grup WhatsApp pelanggan, adakan promo khusus member, atau sistem poin sederhana. Pelanggan yang merasa "milik" bisnis Anda akan menjadi promotor gratis.'});
+
+  list.innerHTML = recs.map((r,i)=>`
+    <div class="diff-item">
+      <span class="diff-item-num">${i+1}.</span>
+      <div class="diff-item-content">
+        <div class="diff-item-title">${r.title}</div>
+        <div class="diff-item-text">${r.text}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════
+// MOBILE MENU
+// ══════════════════════════════════════════
+document.getElementById('navHamburger').addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VentureIQ — Smart Tools for Smart Business</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    /* ══════════════════════════════════════════
+       VentureIQ — Design System
+       Theme: Deep Navy + White + Ice Blue Accent
+    ══════════════════════════════════════════ */
+    :root {
+      --navy:       #0b1a2e;
+      --navy-mid:   #112240;
+      --navy-light: #1a3155;
+      --blue:       #2d7ff9;
+      --blue-light: #5ba0ff;
+      --ice:        #e8f1ff;
+      --ice-dim:    #d0e2ff;
+      --white:      #ffffff;
+      --offwhite:   #f4f7fb;
+      --gray:       #7a8ba5;
+      --gray-light: #b0bdd0;
+      --text-dark:  #0d1b30;
+      --text-body:  #3d4f66;
+      --gold:       #f0a500;
+      --shadow-sm:  0 2px 8px rgba(11,26,46,0.06);
+      --shadow-md:  0 8px 30px rgba(11,26,46,0.10);
+      --shadow-lg:  0 20px 60px rgba(11,26,46,0.14);
+      --radius:     12px;
+      --radius-lg:  20px;
+      --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-body);
+      background: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══ SCROLLBAR ══ */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--offwhite); }
+    ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 4px; }
+
+    /* ══ UTILITY ══ */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .section-label {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    .section-heading {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--gray);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ══ NAVBAR ══ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 0 48px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    .navbar.scrolled {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+    }
+    .nav-logo-text {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+    }
+    .nav-logo-text span {
+      color: var(--blue);
+    }
+    .navbar.at-hero .nav-logo-text {
+      color: var(--white);
+    }
+    .navbar.at-hero .nav-logo-text span {
+      color: var(--blue-light);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      transition: color var(--transition);
+      position: relative;
+    }
+    .navbar.at-hero .nav-links a {
+      color: rgba(255,255,255,0.85);
+    }
+    .navbar.at-hero .nav-links a:hover {
+      color: var(--white);
+    }
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--blue);
+      border-radius: 1px;
+      transition: width var(--transition);
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    .nav-cta {
+      padding: 10px 24px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: var(--white) !important;
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .nav-cta:hover {
+      background: var(--blue-light);
+      transform: translateY(-1px);
+    }
+    .nav-cta::after { display: none !important; }
+
+    /* Mobile menu */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .navbar.at-hero .nav-hamburger span {
+      background: var(--white);
+    }
+
+    /* ══ HERO ══ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(165deg, var(--navy) 0%, var(--navy-mid) 50%, #162d50 100%);
+      overflow: hidden;
+    }
+    .hero-bg-placeholder {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 75% 35%, rgba(45,127,249,0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 500px at 20% 80%, rgba(45,127,249,0.08) 0%, transparent 60%);
+      z-index: 1;
+    }
+    /* Geometric decorations */
+    .hero-geo {
+      position: absolute;
+      z-index: 1;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+    .hero-geo-1 {
+      width: 500px; height: 500px;
+      top: -120px; right: -80px;
+    }
+    .hero-geo-2 {
+      width: 300px; height: 300px;
+      bottom: -60px; left: 10%;
+      border-color: rgba(45,127,249,0.1);
+    }
+    .hero-geo-3 {
+      width: 180px; height: 180px;
+      top: 30%; right: 15%;
+      border-radius: 20px;
+      transform: rotate(45deg);
+      border-color: rgba(45,127,249,0.08);
+    }
+    /* Grid pattern */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 140px 0 100px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(45,127,249,0.12);
+      border: 1px solid rgba(45,127,249,0.25);
+      color: var(--blue-light);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .hero-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 24px;
+      max-width: 700px;
+      letter-spacing: -1px;
+    }
+    .hero-title .accent {
+      background: linear-gradient(135deg, var(--blue-light), #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      background: var(--blue);
+      color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition);
+      box-shadow: 0 4px 20px rgba(45,127,249,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--blue-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(45,127,249,0.45);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* Hero stats */
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .hero-stat-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .hero-stat-label {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+
+    /* ══ FEATURES ══ */
+    .features {
+      padding: 120px 0;
+      background: var(--offwhite);
+    }
+    .features-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .features-header .section-sub {
+      margin: 0 auto;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .feature-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      transition: all var(--transition);
+      border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .feature-card:hover {
+      border-color: var(--ice-dim);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-6px);
+    }
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      background: var(--ice);
+    }
+    .feature-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--blue);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .feature-num {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-family: 'Sora', sans-serif;
+      font-size: 4.5rem;
+      font-weight: 800;
+      color: var(--offwhite);
+      line-height: 1;
+      user-select: none;
+    }
+    .feature-card:hover .feature-num {
+      color: var(--ice);
+    }
+    .feature-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+    .feature-desc {
+      font-size: 0.93rem;
+      color: var(--gray);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .feature-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--blue);
+      transition: gap var(--transition);
+    }
+    .feature-card:hover .feature-link {
+      gap: 10px;
+    }
+    .feature-link svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--blue);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* ══ HOW IT WORKS ══ */
+    .how {
+      padding: 120px 0;
+      background: var(--white);
+    }
+    .how-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .how-header .section-sub {
+      margin: 0 auto;
+    }
+    .how-steps {
+      display: flex;
+      gap: 0;
+      position: relative;
+    }
+    .how-step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      padding: 0 24px;
+    }
+    .how-step-num {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .how-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 26px;
+      left: calc(50% + 30px);
+      width: calc(100% - 60px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--navy), var(--gray-light));
+      z-index: 1;
+    }
+    .how-step-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .how-step-desc {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* ══ WHO IS THIS FOR ══ */
+    .audience {
+      padding: 100px 0;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+    .audience::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 500px 300px at 80% 20%, rgba(45,127,249,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 400px at 10% 70%, rgba(45,127,249,0.06) 0%, transparent 60%);
+    }
+    .audience .section-label { color: var(--blue-light); }
+    .audience .section-heading { color: var(--white); }
+    .audience .section-sub { color: rgba(255,255,255,0.5); }
+    .audience-header {
+      text-align: center;
+      margin-bottom: 56px;
+      position: relative;
+    }
+    .audience-header .section-sub { margin: 0 auto; }
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      position: relative;
+    }
+    .audience-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .audience-card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(45,127,249,0.3);
+      transform: translateY(-4px);
+    }
+    .audience-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      background: rgba(45,127,249,0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .audience-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--blue-light);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .audience-card h4 {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .audience-card p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.6;
+    }
+
+    /* ══ CTA SECTION ══ */
+    .cta {
+      padding: 100px 0;
+      background: var(--offwhite);
+    }
+    .cta-box {
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      border-radius: var(--radius-lg);
+      padding: 72px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(45,127,249,0.2), transparent 70%);
+    }
+    .cta-box::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(45,127,249,0.1), transparent 70%);
+    }
+    .cta-box > * { position: relative; z-index: 1; }
+    .cta-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .cta-desc {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.55);
+      max-width: 500px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .cta-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    /* ══ FOOTER ══ */
+    .footer {
+      background: var(--navy);
+      padding: 60px 0 32px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 32px;
+    }
+    .footer-brand-area {}
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .footer-brand-text {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .footer-brand-text span { color: var(--blue-light); }
+    .footer-tagline {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.35);
+      max-width: 280px;
+      line-height: 1.6;
+    }
+    .footer-links-group {
+      display: flex;
+      gap: 64px;
+    }
+    .footer-col h5 {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color var(--transition);
+    }
+    .footer-col a:hover {
+      color: var(--white);
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.25);
+    }
+    .footer-copy a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+    }
+    .footer-copy a:hover { color: var(--white); }
+
+    /* ══ SCROLL REVEAL ══ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .audience-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 24px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: 24px;
+        gap: 20px;
+        box-shadow: var(--shadow-md);
+      }
+      .navbar.at-hero .nav-links.open {
+        background: var(--navy);
+      }
+      .hero-content { padding: 120px 0 80px; }
+      .hero-title { font-size: 2.2rem; }
+      .hero-stats { flex-direction: column; gap: 24px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .how-steps { flex-direction: column; gap: 32px; }
+      .how-step:not(:last-child)::after { display: none; }
+      .audience-grid { grid-template-columns: 1fr; }
+      .cta-box { padding: 48px 28px; }
+      .footer-top { flex-direction: column; gap: 40px; }
+      .footer-links-group { gap: 40px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .container { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar at-hero" id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <!-- VentureIQ Logo Mark -->
+    <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="36" rx="8" fill="#2d7ff9"/>
+      <path d="M10 11l8 14 8-14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="26" cy="11" r="2.5" fill="#93c5fd"/>
+    </svg>
+    <span class="nav-logo-text">Venture<span>IQ</span></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#features">Fitur</a></li>
+    <li><a href="#how">Cara Kerja</a></li>
+    <li><a href="#audience">Untuk Siapa</a></li>
+    <li><a href="health-score.html" class="nav-cta">Mulai Sekarang</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg-placeholder"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-geo hero-geo-1"></div>
+  <div class="hero-geo hero-geo-2"></div>
+  <div class="hero-geo hero-geo-3"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Platform Gratis untuk UMKM Indonesia
+    </div>
+    <h1 class="hero-title">
+      Keputusan Bisnis<br/>yang Lebih <span class="accent">Cerdas</span>
+    </h1>
+    <p class="hero-desc">
+      VentureIQ membantu pelaku usaha kecil dan menengah memahami kondisi bisnis, 
+      menentukan harga jual yang tepat, dan membangun identitas brand — semua dalam satu platform.
+    </p>
+    <div class="hero-actions">
+      <a href="health-score.html" class="btn-primary">
+        Cek Kesehatan Bisnis
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <a href="#features" class="btn-secondary">
+        Lihat Semua Fitur
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">4</div>
+        <div class="hero-stat-label">Tools Tersedia</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-label">Gratis Tanpa Batas</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">0</div>
+        <div class="hero-stat-label">Registrasi Diperlukan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header reveal">
+      <div class="section-label">Fitur Unggulan</div>
+      <h2 class="section-heading">Semua yang Bisnis Anda Butuhkan</h2>
+      <p class="section-sub">Empat tools yang dirancang khusus untuk membantu UMKM Indonesia tumbuh lebih cepat dan lebih percaya diri.</p>
+    </div>
+    <div class="features-grid">
+
+      <!-- Card 1: Health Score -->
+      <a href="health-score.html" class="feature-card reveal">
+        <span class="feature-num">01</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3 class="feature-title">Business Health Score</h3>
+        <p class="feature-desc">Diagnosa kondisi bisnis Anda melalui pertanyaan sederhana. Dapatkan skor 0-100 beserta rekomendasi perbaikan yang bisa langsung diterapkan.</p>
+        <span class="feature-link">
+          Mulai Diagnosa
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <!-- Card 2: Pricing Psychology -->
+      <a href="pricing.html" class="feature-card reveal">
+        <span class="feature-num">02</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3 class="feature-title">Smart Pricing Calculator</h3>
+        <p class="feature-desc">Tentukan harga jual yang bukan hanya menutup modal, tapi juga secara psikologis mendorong pelanggan untuk membeli.</p>
+        <span class="feature-link">
+          Hitung Harga
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <!-- Card 3: Branding Generator -->
+      <a href="branding.html" class="feature-card reveal">
+        <span class="feature-num">03</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3 class="feature-title">Brand Identity Generator</h3>
+        <p class="feature-desc">Buat nama bisnis, tagline, palet warna, dan rekomendasi font dalam hitungan detik. Identitas brand profesional, tanpa biaya konsultan.</p>
+        <span class="feature-link">
+          Buat Brand
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <!-- Card 4: Competitor Radar -->
+      <a href="competitor.html" class="feature-card reveal">
+        <span class="feature-num">04</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" opacity="0.5"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3 class="feature-title">Kompetitor Radar</h3>
+        <p class="feature-desc">Analisis posisi bisnis Anda vs kompetitor dengan visualisasi peta posisi, radar chart, battle card, dan rekomendasi strategi diferensiasi.</p>
+        <span class="feature-link">
+          Mulai Analisis
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="how-header reveal">
+      <div class="section-label">Cara Kerja</div>
+      <h2 class="section-heading">Tiga Langkah Sederhana</h2>
+      <p class="section-sub">Tidak perlu registrasi, tidak perlu bayar. Langsung pakai.</p>
+    </div>
+    <div class="how-steps reveal">
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <div class="how-step-title">Pilih Tools</div>
+        <div class="how-step-desc">Pilih tools yang sesuai kebutuhan bisnis Anda saat ini dari tiga pilihan yang tersedia.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <div class="how-step-title">Isi Data</div>
+        <div class="how-step-desc">Jawab beberapa pertanyaan singkat atau masukkan data bisnis Anda. Prosesnya kurang dari 5 menit.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <div class="how-step-title">Dapatkan Hasil</div>
+        <div class="how-step-desc">Terima analisis, rekomendasi, dan output visual yang bisa langsung Anda terapkan pada bisnis.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AUDIENCE ══ -->
+<section class="audience" id="audience">
+  <div class="container">
+    <div class="audience-header reveal">
+      <div class="section-label">Untuk Siapa</div>
+      <h2 class="section-heading">Dirancang untuk Pelaku Usaha</h2>
+      <p class="section-sub">Dari warung kelontong hingga bisnis online — VentureIQ dibuat untuk semua skala usaha.</p>
+    </div>
+    <div class="audience-grid reveal">
+      <div class="audience-card">
+        <div class="audience-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h4>Toko &amp; Warung</h4>
+        <p>Pemilik warung, toko kelontong, dan usaha ritel kecil yang ingin mengelola bisnis lebih terstruktur.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h4>UMKM Kuliner</h4>
+        <p>Pelaku usaha makanan dan minuman yang perlu menghitung HPP dan menentukan harga jual yang tepat.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h4>Bisnis Online</h4>
+        <p>Reseller, dropshipper, dan pemilik toko online yang ingin membangun brand dan strategi harga yang kuat.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <h4>Calon Pengusaha</h4>
+        <p>Mahasiswa dan siapa pun yang sedang merencanakan usaha baru dan butuh panduan awal yang jelas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-box reveal">
+      <h2 class="cta-title">Siap Membuat Keputusan Bisnis<br/>yang Lebih Cerdas?</h2>
+      <p class="cta-desc">Mulai sekarang — pilih tools yang Anda butuhkan dan dapatkan hasilnya dalam hitungan menit.</p>
+      <div class="cta-actions">
+        <a href="health-score.html" class="btn-primary">
+          Mulai Sekarang
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand-area">
+        <div class="footer-brand">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="8" fill="#2d7ff9"/>
+            <path d="M10 11l8 14 8-14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="26" cy="11" r="2.5" fill="#93c5fd"/>
+          </svg>
+          <span class="footer-brand-text">Venture<span>IQ</span></span>
+        </div>
+        <p class="footer-tagline">Smart Tools for Smart Business. Platform gratis untuk membantu UMKM Indonesia berkembang.</p>
+      </div>
+      <div class="footer-links-group">
+        <div class="footer-col">
+          <h5>Tools</h5>
+          <a href="health-score.html">Business Health Score</a>
+          <a href="pricing.html">Smart Pricing</a>
+          <a href="branding.html">Brand Generator</a>
+          <a href="competitor.html">Kompetitor Radar</a>
+        </div>
+        <div class="footer-col">
+          <h5>Halaman</h5>
+          <a href="#features">Fitur</a>
+          <a href="#how">Cara Kerja</a>
+          <a href="#audience">Untuk Siapa</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 VentureIQ. Dibuat untuk <a href="https://developers.google.com" target="_blank">#JuaraVibeCoding</a></div>
+      <div class="footer-copy">Semua hak dilindungi.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll behavior
+  const nav = document.getElementById('mainNav');
+  const hero = document.querySelector('.hero');
+  function handleScroll() {
+    const heroBottom = hero.offsetTop + hero.offsetHeight - 80;
+    if (window.scrollY > heroBottom) {
+      nav.classList.remove('at-hero');
+      nav.classList.add('scrolled');
+    } else if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+      nav.classList.add('at-hero');
+    } else {
+      nav.classList.remove('scrolled');
+      nav.classList.add('at-hero');
+    }
+  }
+  window.addEventListener('scroll', handleScroll);
+  handleScroll();
+
+  // Mobile menu toggle
+  const hamburger = document.getElementById('navHamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

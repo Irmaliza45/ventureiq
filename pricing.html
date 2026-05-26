@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Pricing Calculator — VentureIQ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy:       #0b1a2e;
+      --navy-mid:   #112240;
+      --navy-light: #1a3155;
+      --blue:       #2d7ff9;
+      --blue-light: #5ba0ff;
+      --ice:        #e8f1ff;
+      --ice-dim:    #d0e2ff;
+      --white:      #ffffff;
+      --offwhite:   #f4f7fb;
+      --gray:       #7a8ba5;
+      --gray-light: #b0bdd0;
+      --text-dark:  #0d1b30;
+      --text-body:  #3d4f66;
+      --green:      #22c55e;
+      --green-bg:   #f0fdf4;
+      --yellow:     #f59e0b;
+      --yellow-bg:  #fffbeb;
+      --red:        #ef4444;
+      --shadow-sm:  0 2px 8px rgba(11,26,46,0.06);
+      --shadow-md:  0 8px 30px rgba(11,26,46,0.10);
+      --shadow-lg:  0 20px 60px rgba(11,26,46,0.14);
+      --radius:     12px;
+      --radius-lg:  20px;
+      --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-body); background: var(--offwhite);
+      overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--offwhite); }
+    ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 4px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+    /* ══ NAVBAR ══ */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      padding: 0 48px; height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-icon { width: 36px; height: 36px; }
+    .nav-logo-text {
+      font-family: 'Sora', sans-serif; font-size: 1.25rem; font-weight: 800;
+      color: var(--navy); letter-spacing: -0.5px;
+    }
+    .nav-logo-text span { color: var(--blue); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 0.9rem; font-weight: 600; color: var(--navy);
+      text-decoration: none; transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      padding: 10px 24px; border-radius: 8px; background: var(--blue);
+      color: var(--white) !important; font-weight: 600; font-size: 0.88rem;
+      text-decoration: none; transition: background var(--transition);
+    }
+    .nav-cta:hover { background: var(--blue-light); }
+    .nav-hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block; width: 24px; height: 2px; background: var(--navy);
+      border-radius: 2px; transition: var(--transition);
+    }
+
+    /* ══ PAGE HEADER ══ */
+    .page-header {
+      padding: 120px 0 48px;
+      background: linear-gradient(165deg, var(--navy) 0%, var(--navy-mid) 100%);
+      position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 500px 300px at 70% 40%, rgba(45,127,249,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 400px at 15% 80%, rgba(45,127,249,0.06) 0%, transparent 60%);
+    }
+    .page-header-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .page-header .container { position: relative; z-index: 2; }
+    .page-breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.82rem; color: rgba(255,255,255,0.4); margin-bottom: 20px;
+    }
+    .page-breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color var(--transition); }
+    .page-breadcrumb a:hover { color: var(--white); }
+    .page-breadcrumb svg { width: 14px; height: 14px; stroke: rgba(255,255,255,0.3); }
+    .page-title {
+      font-family: 'Sora', sans-serif; font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800; color: var(--white); line-height: 1.2; margin-bottom: 12px;
+    }
+    .page-title .accent {
+      background: linear-gradient(135deg, var(--blue-light), #93c5fd);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-desc {
+      font-size: 1.05rem; color: rgba(255,255,255,0.5); max-width: 560px; line-height: 1.7;
+    }
+
+    /* ══ MAIN ══ */
+    .main { padding: 48px 0 100px; }
+    .main-grid {
+      display: grid; grid-template-columns: 400px 1fr; gap: 32px;
+      align-items: start;
+    }
+
+    /* ══ INPUT PANEL ══ */
+    .input-panel {
+      background: var(--white); border-radius: var(--radius-lg);
+      padding: 36px 32px; box-shadow: var(--shadow-md);
+      border: 1px solid rgba(0,0,0,0.04);
+      position: sticky; top: 96px;
+    }
+    .input-panel-title {
+      font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--text-dark); margin-bottom: 24px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block; font-size: 0.85rem; font-weight: 600;
+      color: var(--text-dark); margin-bottom: 8px;
+    }
+    .form-hint {
+      font-size: 0.78rem; color: var(--gray); font-weight: 400; margin-left: 4px;
+    }
+    .form-input {
+      width: 100%; padding: 14px 16px; border: 2px solid var(--ice);
+      border-radius: var(--radius); font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem; color: var(--text-dark);
+      background: var(--offwhite); transition: all var(--transition);
+    }
+    .form-input:focus {
+      outline: none; border-color: var(--blue); background: var(--white);
+      box-shadow: 0 0 0 4px rgba(45,127,249,0.1);
+    }
+    .form-input::placeholder { color: var(--gray-light); }
+    .form-prefix {
+      position: relative;
+    }
+    .form-prefix .form-input { padding-left: 42px; }
+    .form-prefix-text {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      font-size: 0.9rem; font-weight: 600; color: var(--gray);
+    }
+    .form-select {
+      width: 100%; padding: 14px 16px; border: 2px solid var(--ice);
+      border-radius: var(--radius); font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem; color: var(--text-dark);
+      background: var(--offwhite); transition: all var(--transition);
+      cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%237a8ba5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+    .form-select:focus {
+      outline: none; border-color: var(--blue); background-color: var(--white);
+      box-shadow: 0 0 0 4px rgba(45,127,249,0.1);
+    }
+    .btn-calculate {
+      width: 100%; padding: 16px; border: none; border-radius: var(--radius);
+      background: var(--blue); color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer;
+      transition: all var(--transition);
+      box-shadow: 0 4px 16px rgba(45,127,249,0.3);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-calculate:hover { background: var(--blue-light); transform: translateY(-1px); }
+    .btn-calculate svg {
+      width: 18px; height: 18px; stroke: currentColor;
+      fill: none; stroke-width: 2;
+    }
+
+    /* ══ OUTPUT PANEL ══ */
+    .output-panel { min-height: 400px; }
+
+    /* Empty state */
+    .empty-state {
+      background: var(--white); border-radius: var(--radius-lg);
+      padding: 80px 40px; text-align: center;
+      border: 2px dashed var(--ice-dim);
+    }
+    .empty-state-icon {
+      width: 64px; height: 64px; margin: 0 auto 20px;
+      background: var(--ice); border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .empty-state-icon svg {
+      width: 28px; height: 28px; stroke: var(--blue); fill: none; stroke-width: 1.8;
+    }
+    .empty-state-title {
+      font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--text-dark); margin-bottom: 8px;
+    }
+    .empty-state-desc {
+      font-size: 0.9rem; color: var(--gray); line-height: 1.6;
+    }
+
+    /* Result cards */
+    .result-section { animation: fadeUp 0.5s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Summary card */
+    .summary-card {
+      background: var(--white); border-radius: var(--radius-lg);
+      padding: 32px; box-shadow: var(--shadow-md);
+      border: 1px solid rgba(0,0,0,0.04); margin-bottom: 24px;
+    }
+    .summary-label {
+      font-family: 'Sora', sans-serif; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase; color: var(--blue);
+      margin-bottom: 4px;
+    }
+    .summary-product {
+      font-family: 'Sora', sans-serif; font-size: 1.3rem; font-weight: 800;
+      color: var(--text-dark); margin-bottom: 16px;
+    }
+    .summary-row {
+      display: flex; justify-content: space-between; padding: 10px 0;
+      border-bottom: 1px solid var(--ice); font-size: 0.9rem;
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-row-label { color: var(--gray); }
+    .summary-row-value { font-weight: 700; color: var(--text-dark); }
+    .summary-row-value.profit { color: var(--green); }
+    .summary-margin {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 16px; padding: 12px 16px;
+      background: var(--green-bg); border-radius: var(--radius);
+    }
+    .summary-margin-label { font-size: 0.85rem; color: var(--text-body); }
+    .summary-margin-value {
+      font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 800;
+      color: var(--green); margin-left: auto;
+    }
+
+    /* Strategy cards */
+    .strategy-card {
+      background: var(--white); border-radius: var(--radius-lg);
+      padding: 32px; box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0,0,0,0.04); margin-bottom: 20px;
+      position: relative; overflow: hidden;
+    }
+    .strategy-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; border-radius: 3px 3px 0 0;
+    }
+    .strategy-card.charm::before { background: var(--blue); }
+    .strategy-card.anchor::before { background: var(--yellow); }
+    .strategy-card.bundle::before { background: var(--green); }
+    .strategy-tag {
+      display: inline-block; padding: 4px 12px; border-radius: 100px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .charm .strategy-tag { background: var(--ice); color: var(--blue); }
+    .anchor .strategy-tag { background: var(--yellow-bg); color: var(--yellow); }
+    .bundle .strategy-tag { background: var(--green-bg); color: var(--green); }
+    .strategy-title {
+      font-family: 'Sora', sans-serif; font-size: 1.05rem; font-weight: 700;
+      color: var(--text-dark); margin-bottom: 8px;
+    }
+    .strategy-desc {
+      font-size: 0.88rem; color: var(--gray); line-height: 1.7; margin-bottom: 20px;
+    }
+    .strategy-price-row {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .strategy-price {
+      font-family: 'Sora', sans-serif; font-size: 1.8rem; font-weight: 800;
+      color: var(--text-dark);
+    }
+    .strategy-price-old {
+      font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 600;
+      color: var(--gray-light); text-decoration: line-through;
+    }
+    .strategy-badge {
+      display: inline-block; padding: 4px 10px; border-radius: 6px;
+      font-size: 0.78rem; font-weight: 700;
+    }
+    .charm .strategy-badge { background: var(--ice); color: var(--blue); }
+    .anchor .strategy-badge { background: var(--yellow-bg); color: var(--yellow); }
+    .bundle .strategy-badge { background: var(--green-bg); color: var(--green); }
+    .strategy-why {
+      margin-top: 16px; padding: 14px 16px;
+      background: var(--offwhite); border-radius: var(--radius);
+      border-left: 3px solid;
+    }
+    .charm .strategy-why { border-color: var(--blue); }
+    .anchor .strategy-why { border-color: var(--yellow); }
+    .bundle .strategy-why { border-color: var(--green); }
+    .strategy-why-title {
+      font-size: 0.8rem; font-weight: 700; color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+    .strategy-why-text {
+      font-size: 0.83rem; color: var(--gray); line-height: 1.6;
+    }
+
+    /* ══ FOOTER ══ */
+    .footer {
+      background: var(--navy); padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; }
+    .footer-brand-text {
+      font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 800; color: var(--white);
+    }
+    .footer-brand-text span { color: var(--blue-light); }
+    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.25); }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 900px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .input-panel { position: static; }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 24px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute;
+        top: 72px; left: 0; right: 0; background: var(--white);
+        padding: 24px; gap: 20px; box-shadow: var(--shadow-md);
+      }
+      .container { padding: 0 20px; }
+      .input-panel { padding: 28px 22px; }
+      .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="36" rx="8" fill="#2d7ff9"/>
+      <path d="M10 11l8 14 8-14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="26" cy="11" r="2.5" fill="#93c5fd"/>
+    </svg>
+    <span class="nav-logo-text">Venture<span>IQ</span></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Beranda</a></li>
+    <li><a href="health-score.html">Health Score</a></li>
+    <li><a href="branding.html">Brand Generator</a></li>
+    <li><a href="pricing.html" class="nav-cta">Smart Pricing</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══ PAGE HEADER ══ -->
+<section class="page-header">
+  <div class="page-header-grid"></div>
+  <div class="container">
+    <div class="page-breadcrumb">
+      <a href="index.html">Beranda</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      <span>Smart Pricing Calculator</span>
+    </div>
+    <h1 class="page-title">Smart <span class="accent">Pricing</span> Calculator</h1>
+    <p class="page-desc">Tentukan harga jual yang optimal dengan pendekatan psikologi harga. Bukan sekadar modal + untung, tapi harga yang membuat pelanggan mau membeli.</p>
+  </div>
+</section>
+
+<!-- ══ MAIN ══ -->
+<section class="main">
+  <div class="container">
+    <div class="main-grid">
+
+      <!-- INPUT -->
+      <div class="input-panel">
+        <div class="input-panel-title">Masukkan Data Produk</div>
+
+        <div class="form-group">
+          <label class="form-label">Nama Produk</label>
+          <input type="text" class="form-input" id="productName" placeholder="Contoh: Nasi Goreng Spesial"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Modal per Unit <span class="form-hint">(biaya produksi / beli)</span></label>
+          <div class="form-prefix">
+            <span class="form-prefix-text">Rp</span>
+            <input type="number" class="form-input" id="costPrice" placeholder="15000"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Biaya Operasional per Unit <span class="form-hint">(kemasan, listrik, dll)</span></label>
+          <div class="form-prefix">
+            <span class="form-prefix-text">Rp</span>
+            <input type="number" class="form-input" id="opsCost" placeholder="3000"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Target Keuntungan <span class="form-hint">(%)</span></label>
+          <input type="number" class="form-input" id="targetMargin" placeholder="30" min="1" max="500"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Kategori Produk</label>
+          <select class="form-select" id="productCategory">
+            <option value="food">Makanan &amp; Minuman</option>
+            <option value="fashion">Fashion &amp; Aksesoris</option>
+            <option value="craft">Kerajinan &amp; Handmade</option>
+            <option value="digital">Produk Digital / Jasa</option>
+            <option value="retail">Retail / Kelontong</option>
+            <option value="other">Lainnya</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Harga Kompetitor <span class="form-hint">(opsional)</span></label>
+          <div class="form-prefix">
+            <span class="form-prefix-text">Rp</span>
+            <input type="number" class="form-input" id="competitorPrice" placeholder="25000"/>
+          </div>
+        </div>
+
+        <button class="btn-calculate" id="btnCalculate">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Hitung Harga Optimal
+        </button>
+      </div>
+
+      <!-- OUTPUT -->
+      <div class="output-panel" id="outputPanel">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-state-icon">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="empty-state-title">Belum Ada Perhitungan</div>
+          <div class="empty-state-desc">Isi data produk di sebelah kiri, lalu klik "Hitung Harga Optimal" untuk mendapatkan rekomendasi harga dengan strategi psikologi harga.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="8" fill="#2d7ff9"/>
+          <path d="M10 11l8 14 8-14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="26" cy="11" r="2.5" fill="#93c5fd"/>
+        </svg>
+        <span class="footer-brand-text">Venture<span>IQ</span></span>
+      </div>
+      <div class="footer-copy">&copy; 2026 VentureIQ. Dibuat untuk #JuaraVibeCoding</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function formatRupiah(num) {
+  return 'Rp ' + Math.round(num).toLocaleString('id-ID');
+}
+
+function charmPrice(price) {
+  // Round to nearest thousand then subtract a bit
+  if (price < 10000) {
+    const base = Math.ceil(price / 1000) * 1000;
+    return base - 100; // e.g. 5000 -> 4900
+  } else if (price < 100000) {
+    const base = Math.ceil(price / 1000) * 1000;
+    return base - 100; // e.g. 25000 -> 24900
+  } else {
+    const base = Math.ceil(price / 10000) * 10000;
+    return base - 1000; // e.g. 150000 -> 149000
+  }
+}
+
+function anchorPrice(price) {
+  // Create a higher "original" price
+  if (price < 50000) {
+    return Math.ceil((price * 1.4) / 1000) * 1000;
+  } else {
+    return Math.ceil((price * 1.35) / 10000) * 10000;
+  }
+}
+
+function bundlePrice(price, category) {
+  let qty, discount;
+  if (category === 'food') { qty = 3; discount = 0.12; }
+  else if (category === 'fashion') { qty = 2; discount = 0.10; }
+  else if (category === 'craft') { qty = 2; discount = 0.08; }
+  else if (category === 'digital') { qty = 3; discount = 0.15; }
+  else { qty = 3; discount = 0.10; }
+
+  const bundleTotal = Math.round(price * qty * (1 - discount));
+  const perItem = Math.round(bundleTotal / qty);
+  return { qty, discount, bundleTotal, perItem };
+}
+
+// ══════════════════════════════════════════
+// CALCULATE
+// ══════════════════════════════════════════
+document.getElementById('btnCalculate').addEventListener('click', () => {
+  const name = document.getElementById('productName').value.trim() || 'Produk Anda';
+  const cost = parseFloat(document.getElementById('costPrice').value) || 0;
+  const ops = parseFloat(document.getElementById('opsCost').value) || 0;
+  const margin = parseFloat(document.getElementById('targetMargin').value) || 30;
+  const category = document.getElementById('productCategory').value;
+  const competitor = parseFloat(document.getElementById('competitorPrice').value) || 0;
+
+  if (cost <= 0) {
+    alert('Masukkan modal per unit terlebih dahulu.');
+    return;
+  }
+
+  const totalCost = cost + ops;
+  const basePrice = totalCost * (1 + margin / 100);
+  const profit = basePrice - totalCost;
+  const realMargin = ((profit / totalCost) * 100).toFixed(1);
+
+  // Charm pricing
+  const charm = charmPrice(basePrice);
+  const charmProfit = charm - totalCost;
+  const charmMargin = ((charmProfit / totalCost) * 100).toFixed(1);
+
+  // Anchor pricing
+  const anchor = anchorPrice(basePrice);
+  const anchorSale = charmPrice(basePrice); // actual selling price
+
+  // Bundle pricing
+  const bundle = bundlePrice(basePrice, category);
+
+  // Category labels
+  const catLabels = {
+    food: 'Makanan & Minuman', fashion: 'Fashion & Aksesoris',
+    craft: 'Kerajinan & Handmade', digital: 'Produk Digital / Jasa',
+    retail: 'Retail / Kelontong', other: 'Lainnya'
+  };
+
+  const outputPanel = document.getElementById('outputPanel');
+  document.getElementById('emptyState')?.remove();
+
+  let competitorNote = '';
+  if (competitor > 0) {
+    const diff = ((basePrice - competitor) / competitor * 100).toFixed(0);
+    if (basePrice > competitor) {
+      competitorNote = `<div class="summary-row"><span class="summary-row-label">vs Kompetitor</span><span class="summary-row-value" style="color:var(--yellow)">${diff}% lebih tinggi</span></div>`;
+    } else if (basePrice < competitor) {
+      competitorNote = `<div class="summary-row"><span class="summary-row-label">vs Kompetitor</span><span class="summary-row-value" style="color:var(--green)">${Math.abs(diff)}% lebih rendah</span></div>`;
+    } else {
+      competitorNote = `<div class="summary-row"><span class="summary-row-label">vs Kompetitor</span><span class="summary-row-value">Sama persis</span></div>`;
+    }
+  }
+
+  outputPanel.innerHTML = `
+    <div class="result-section">
+      <!-- Summary -->
+      <div class="summary-card">
+        <div class="summary-label">Ringkasan Perhitungan</div>
+        <div class="summary-product">${name}</div>
+        <div class="summary-row">
+          <span class="summary-row-label">Modal per unit</span>
+          <span class="summary-row-value">${formatRupiah(cost)}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-row-label">Biaya operasional</span>
+          <span class="summary-row-value">${formatRupiah(ops)}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-row-label">Total biaya</span>
+          <span class="summary-row-value">${formatRupiah(totalCost)}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-row-label">Harga dasar (+ ${margin}%)</span>
+          <span class="summary-row-value">${formatRupiah(basePrice)}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-row-label">Keuntungan per unit</span>
+          <span class="summary-row-value profit">${formatRupiah(profit)}</span>
+        </div>
+        ${competitorNote}
+        <div class="summary-margin">
+          <span class="summary-margin-label">Margin keuntungan riil</span>
+          <span class="summary-margin-value">${realMargin}%</span>
+        </div>
+      </div>
+
+      <!-- Strategy 1: Charm Pricing -->
+      <div class="strategy-card charm">
+        <span class="strategy-tag">Strategi 1</span>
+        <div class="strategy-title">Charm Pricing</div>
+        <div class="strategy-desc">Harga diakhiri angka 9 atau 900, menciptakan persepsi bahwa harga berada di kelompok lebih rendah dari yang sebenarnya.</div>
+        <div class="strategy-price-row">
+          <span class="strategy-price">${formatRupiah(charm)}</span>
+          <span class="strategy-badge">Margin ${charmMargin}%</span>
+        </div>
+        <div class="strategy-why">
+          <div class="strategy-why-title">Kenapa efektif?</div>
+          <div class="strategy-why-text">Otak manusia membaca harga dari kiri. ${formatRupiah(charm)} terasa jauh lebih murah dibanding ${formatRupiah(Math.ceil(basePrice / 1000) * 1000)}, padahal selisihnya sangat kecil. Teknik ini digunakan oleh hampir semua retailer besar dunia.</div>
+        </div>
+      </div>
+
+      <!-- Strategy 2: Anchor Pricing -->
+      <div class="strategy-card anchor">
+        <span class="strategy-tag">Strategi 2</span>
+        <div class="strategy-title">Anchor Pricing</div>
+        <div class="strategy-desc">Tampilkan harga "normal" yang lebih tinggi, lalu tunjukkan harga jual Anda sebagai penawaran spesial. Pelanggan merasa mendapat deal yang bagus.</div>
+        <div class="strategy-price-row">
+          <span class="strategy-price-old">${formatRupiah(anchor)}</span>
+          <span class="strategy-price">${formatRupiah(anchorSale)}</span>
+          <span class="strategy-badge">Hemat ${formatRupiah(anchor - anchorSale)}</span>
+        </div>
+        <div class="strategy-why">
+          <div class="strategy-why-title">Kenapa efektif?</div>
+          <div class="strategy-why-text">Ketika pelanggan melihat harga coret ${formatRupiah(anchor)}, otak mereka menggunakan itu sebagai "jangkar" untuk menilai apakah harga ${formatRupiah(anchorSale)} mahal atau murah. Hasilnya, mereka merasa mendapat keuntungan dan lebih cepat memutuskan untuk membeli.</div>
+        </div>
+      </div>
+
+      <!-- Strategy 3: Bundle Pricing -->
+      <div class="strategy-card bundle">
+        <span class="strategy-tag">Strategi 3</span>
+        <div class="strategy-title">Bundle Pricing</div>
+        <div class="strategy-desc">Tawarkan paket pembelian ${bundle.qty} unit sekaligus dengan potongan harga. Meningkatkan volume penjualan dan membuat pelanggan merasa hemat.</div>
+        <div class="strategy-price-row">
+          <span class="strategy-price">${formatRupiah(bundle.bundleTotal)} / ${bundle.qty} pcs</span>
+          <span class="strategy-badge">Diskon ${(bundle.discount * 100).toFixed(0)}%</span>
+        </div>
+        <div class="strategy-why">
+          <div class="strategy-why-title">Kenapa efektif?</div>
+          <div class="strategy-why-text">Harga satuan menjadi ${formatRupiah(bundle.perItem)} per item (hemat ${formatRupiah(Math.round(basePrice) - bundle.perItem)} per unit). Pelanggan merasa untung karena harga per item turun, sementara Anda untung karena volume penjualan naik. Cocok untuk kategori ${catLabels[category]}.</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Scroll to result on mobile
+  if (window.innerWidth <= 900) {
+    outputPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
+
+// Mobile menu
+document.getElementById('navHamburger').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// Enter key support
+document.querySelectorAll('.form-input').forEach(input => {
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('btnCalculate').click();
+  });
+});
+</script>
+
+</body>
+</html>

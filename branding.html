@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brand Identity Generator — VentureIQ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&family=Poppins:wght@400;600;700&family=Raleway:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy:       #0b1a2e;
+      --navy-mid:   #112240;
+      --navy-light: #1a3155;
+      --blue:       #2d7ff9;
+      --blue-light: #5ba0ff;
+      --ice:        #e8f1ff;
+      --ice-dim:    #d0e2ff;
+      --white:      #ffffff;
+      --offwhite:   #f4f7fb;
+      --gray:       #7a8ba5;
+      --gray-light: #b0bdd0;
+      --text-dark:  #0d1b30;
+      --text-body:  #3d4f66;
+      --green:      #22c55e;
+      --green-bg:   #f0fdf4;
+      --yellow:     #f59e0b;
+      --shadow-sm:  0 2px 8px rgba(11,26,46,0.06);
+      --shadow-md:  0 8px 30px rgba(11,26,46,0.10);
+      --shadow-lg:  0 20px 60px rgba(11,26,46,0.14);
+      --radius:     12px;
+      --radius-lg:  20px;
+      --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text-body);background:var(--offwhite);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    ::-webkit-scrollbar{width:8px;}
+    ::-webkit-scrollbar-track{background:var(--offwhite);}
+    ::-webkit-scrollbar-thumb{background:var(--blue);border-radius:4px;}
+    .container{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+    /* ══ NAVBAR ══ */
+    .navbar{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);box-shadow:var(--shadow-sm);}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .nav-logo-icon{width:36px;height:36px;}
+    .nav-logo-text{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-0.5px;}
+    .nav-logo-text span{color:var(--blue);}
+    .nav-links{display:flex;align-items:center;gap:32px;list-style:none;}
+    .nav-links a{font-size:0.9rem;font-weight:600;color:var(--navy);text-decoration:none;transition:color var(--transition);}
+    .nav-links a:hover{color:var(--blue);}
+    .nav-cta{padding:10px 24px;border-radius:8px;background:var(--blue);color:var(--white)!important;font-weight:600;font-size:0.88rem;text-decoration:none;transition:background var(--transition);}
+    .nav-cta:hover{background:var(--blue-light);}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .nav-hamburger span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;transition:var(--transition);}
+
+    /* ══ PAGE HEADER ══ */
+    .page-header{padding:120px 0 48px;background:linear-gradient(165deg,var(--navy) 0%,var(--navy-mid) 100%);position:relative;overflow:hidden;}
+    .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 500px 300px at 70% 40%,rgba(45,127,249,0.12) 0%,transparent 70%),radial-gradient(ellipse 400px 400px at 15% 80%,rgba(45,127,249,0.06) 0%,transparent 60%);}
+    .page-header-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:60px 60px;}
+    .page-header .container{position:relative;z-index:2;}
+    .page-breadcrumb{display:flex;align-items:center;gap:8px;font-size:0.82rem;color:rgba(255,255,255,0.4);margin-bottom:20px;}
+    .page-breadcrumb a{color:rgba(255,255,255,0.5);text-decoration:none;transition:color var(--transition);}
+    .page-breadcrumb a:hover{color:var(--white);}
+    .page-breadcrumb svg{width:14px;height:14px;stroke:rgba(255,255,255,0.3);}
+    .page-title{font-family:'Sora',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:var(--white);line-height:1.2;margin-bottom:12px;}
+    .page-title .accent{background:linear-gradient(135deg,var(--blue-light),#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .page-desc{font-size:1.05rem;color:rgba(255,255,255,0.5);max-width:560px;line-height:1.7;}
+
+    /* ══ MAIN ══ */
+    .main{padding:48px 0 100px;}
+    .main-grid{display:grid;grid-template-columns:400px 1fr;gap:32px;align-items:start;}
+
+    /* ══ INPUT PANEL ══ */
+    .input-panel{background:var(--white);border-radius:var(--radius-lg);padding:36px 32px;box-shadow:var(--shadow-md);border:1px solid rgba(0,0,0,0.04);position:sticky;top:96px;}
+    .input-panel-title{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text-dark);margin-bottom:24px;}
+    .form-group{margin-bottom:20px;}
+    .form-label{display:block;font-size:0.85rem;font-weight:600;color:var(--text-dark);margin-bottom:8px;}
+    .form-hint{font-size:0.78rem;color:var(--gray);font-weight:400;margin-left:4px;}
+    .form-input,.form-textarea{width:100%;padding:14px 16px;border:2px solid var(--ice);border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;color:var(--text-dark);background:var(--offwhite);transition:all var(--transition);}
+    .form-input:focus,.form-textarea:focus{outline:none;border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4px rgba(45,127,249,0.1);}
+    .form-input::placeholder,.form-textarea::placeholder{color:var(--gray-light);}
+    .form-textarea{resize:vertical;min-height:80px;line-height:1.6;}
+    .form-select{width:100%;padding:14px 16px;border:2px solid var(--ice);border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;color:var(--text-dark);background:var(--offwhite);transition:all var(--transition);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%237a8ba5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;}
+    .form-select:focus{outline:none;border-color:var(--blue);background-color:var(--white);box-shadow:0 0 0 4px rgba(45,127,249,0.1);}
+
+    .chip-group{display:flex;flex-wrap:wrap;gap:8px;}
+    .chip{padding:8px 16px;border-radius:100px;border:2px solid var(--ice);background:var(--offwhite);font-size:0.82rem;font-weight:600;color:var(--text-body);cursor:pointer;transition:all var(--transition);}
+    .chip:hover{border-color:var(--ice-dim);background:var(--ice);}
+    .chip.selected{border-color:var(--blue);background:var(--ice);color:var(--blue);}
+
+    .btn-generate{width:100%;padding:16px;border:none;border-radius:var(--radius);background:var(--blue);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all var(--transition);box-shadow:0 4px 16px rgba(45,127,249,0.3);display:flex;align-items:center;justify-content:center;gap:8px;}
+    .btn-generate:hover{background:var(--blue-light);transform:translateY(-1px);}
+    .btn-generate svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;}
+
+    /* ══ OUTPUT ══ */
+    .output-panel{min-height:400px;}
+    .empty-state{background:var(--white);border-radius:var(--radius-lg);padding:80px 40px;text-align:center;border:2px dashed var(--ice-dim);}
+    .empty-state-icon{width:64px;height:64px;margin:0 auto 20px;background:var(--ice);border-radius:16px;display:flex;align-items:center;justify-content:center;}
+    .empty-state-icon svg{width:28px;height:28px;stroke:var(--blue);fill:none;stroke-width:1.8;}
+    .empty-state-title{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text-dark);margin-bottom:8px;}
+    .empty-state-desc{font-size:0.9rem;color:var(--gray);line-height:1.6;}
+
+    /* Result */
+    .result-section{animation:fadeUp 0.5s ease;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+    /* Name suggestions */
+    .names-card{background:var(--white);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-md);border:1px solid rgba(0,0,0,0.04);margin-bottom:24px;}
+    .card-label{font-family:'Sora',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:4px;}
+    .card-title{font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:700;color:var(--text-dark);margin-bottom:20px;}
+    .name-option{padding:20px;border:2px solid var(--ice);border-radius:var(--radius);margin-bottom:12px;cursor:pointer;transition:all var(--transition);}
+    .name-option:hover{border-color:var(--ice-dim);background:var(--offwhite);}
+    .name-option.selected{border-color:var(--blue);background:var(--ice);}
+    .name-option-name{font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:800;color:var(--text-dark);margin-bottom:4px;}
+    .name-option-tagline{font-size:0.9rem;color:var(--gray);font-style:italic;margin-bottom:8px;}
+    .name-option-reason{font-size:0.82rem;color:var(--text-body);line-height:1.6;padding-top:8px;border-top:1px solid var(--ice);}
+
+    /* Color palette */
+    .palette-card{background:var(--white);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-sm);border:1px solid rgba(0,0,0,0.04);margin-bottom:24px;}
+    .palette-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    .palette-item{cursor:pointer;transition:all var(--transition);border-radius:var(--radius);overflow:hidden;border:2px solid transparent;}
+    .palette-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+    .palette-item.selected{border-color:var(--blue);box-shadow:var(--shadow-md);}
+    .palette-colors{display:flex;height:60px;}
+    .palette-color{flex:1;}
+    .palette-name{padding:10px 12px;background:var(--offwhite);font-size:0.8rem;font-weight:700;color:var(--text-dark);text-align:center;}
+    .palette-codes{display:flex;justify-content:center;gap:6px;padding:0 12px 10px;background:var(--offwhite);}
+    .palette-code{font-size:0.68rem;color:var(--gray);font-family:monospace;}
+
+    /* Font pairing */
+    .font-card{background:var(--white);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-sm);border:1px solid rgba(0,0,0,0.04);margin-bottom:24px;}
+    .font-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+    .font-item{padding:20px;border:2px solid var(--ice);border-radius:var(--radius);cursor:pointer;transition:all var(--transition);}
+    .font-item:hover{border-color:var(--ice-dim);background:var(--offwhite);}
+    .font-item.selected{border-color:var(--blue);background:var(--ice);}
+    .font-item-heading{font-size:1.4rem;margin-bottom:4px;color:var(--text-dark);}
+    .font-item-body{font-size:0.9rem;color:var(--gray);line-height:1.5;margin-bottom:8px;}
+    .font-item-label{font-size:0.72rem;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;}
+
+    /* Preview card */
+    .preview-section{margin-bottom:24px;}
+    .preview-card{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);transition:all 0.5s ease;}
+    .preview-header{padding:48px 36px 36px;position:relative;}
+    .preview-logo-area{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+    .preview-logo-circle{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:#fff;}
+    .preview-brand-name{font-size:1.6rem;font-weight:800;color:#fff;}
+    .preview-tagline{font-size:1rem;color:rgba(255,255,255,0.7);margin-bottom:24px;}
+    .preview-cta{display:inline-block;padding:12px 28px;border-radius:8px;font-size:0.88rem;font-weight:700;color:#fff;border:2px solid rgba(255,255,255,0.3);text-decoration:none;transition:all var(--transition);}
+    .preview-cta:hover{background:rgba(255,255,255,0.15);}
+    .preview-body{padding:28px 36px;background:var(--white);}
+    .preview-body-text{font-size:0.9rem;color:var(--text-body);line-height:1.7;margin-bottom:16px;}
+    .preview-palette-strip{display:flex;height:8px;border-radius:4px;overflow:hidden;}
+    .preview-palette-strip div{flex:1;}
+    .preview-label{text-align:center;padding:12px;font-size:0.78rem;color:var(--gray);background:var(--offwhite);border-top:1px solid var(--ice);}
+
+    /* Actions */
+    .result-actions{display:flex;gap:16px;justify-content:center;}
+    .btn-action{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all var(--transition);border:none;text-decoration:none;}
+    .btn-action.secondary{background:var(--offwhite);color:var(--text-body);border:1px solid rgba(0,0,0,0.08);}
+    .btn-action.secondary:hover{background:var(--ice);}
+    .btn-action.primary{background:var(--blue);color:var(--white);box-shadow:0 4px 16px rgba(45,127,249,0.3);}
+    .btn-action.primary:hover{background:var(--blue-light);}
+    .btn-action svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
+
+    /* ══ FOOTER ══ */
+    .footer{background:var(--navy);padding:40px 0;border-top:1px solid rgba(255,255,255,0.05);}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;}
+    .footer-brand{display:flex;align-items:center;gap:10px;}
+    .footer-brand-text{font-family:'Sora',sans-serif;font-size:1rem;font-weight:800;color:var(--white);}
+    .footer-brand-text span{color:var(--blue-light);}
+    .footer-copy{font-size:0.8rem;color:rgba(255,255,255,0.25);}
+
+    @media(max-width:900px){
+      .main-grid{grid-template-columns:1fr;}
+      .input-panel{position:static;}
+      .palette-grid{grid-template-columns:1fr;}
+      .font-grid{grid-template-columns:1fr;}
+    }
+    @media(max-width:768px){
+      .navbar{padding:0 24px;}
+      .nav-links{display:none;}
+      .nav-hamburger{display:flex;}
+      .nav-links.open{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--white);padding:24px;gap:20px;box-shadow:var(--shadow-md);}
+      .container{padding:0 20px;}
+      .input-panel{padding:28px 22px;}
+      .preview-header{padding:32px 24px 28px;}
+      .preview-body{padding:20px 24px;}
+      .footer-inner{flex-direction:column;gap:12px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="36" rx="8" fill="#2d7ff9"/>
+      <path d="M10 11l8 14 8-14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="26" cy="11" r="2.5" fill="#93c5fd"/>
+    </svg>
+    <span class="nav-logo-text">Venture<span>IQ</span></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Beranda</a></li>
+    <li><a href="health-score.html">Health Score</a></li>
+    <li><a href="pricing.html">Smart Pricing</a></li>
+    <li><a href="branding.html" class="nav-cta">Brand Generator</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ══ PAGE HEADER ══ -->
+<section class="page-header">
+  <div class="page-header-grid"></div>
+  <div class="container">
+    <div class="page-breadcrumb">
+      <a href="index.html">Beranda</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      <span>Brand Identity Generator</span>
+    </div>
+    <h1 class="page-title">Brand <span class="accent">Identity</span> Generator</h1>
+    <p class="page-desc">Ceritakan bisnis Anda, dan dapatkan nama brand, tagline, palet warna, serta rekomendasi font — semua siap pakai tanpa biaya konsultan.</p>
+  </div>
+</section>
+
+<!-- ══ MAIN ══ -->
+<section class="main">
+  <div class="container">
+    <div class="main-grid">
+
+      <!-- INPUT -->
+      <div class="input-panel">
+        <div class="input-panel-title">Ceritakan Bisnis Anda</div>
+
+        <div class="form-group">
+          <label class="form-label">Jenis Usaha</label>
+          <select class="form-select" id="bizType">
+            <option value="food">Makanan &amp; Minuman</option>
+            <option value="fashion">Fashion &amp; Aksesoris</option>
+            <option value="beauty">Kecantikan &amp; Skincare</option>
+            <option value="craft">Kerajinan &amp; Handmade</option>
+            <option value="tech">Teknologi &amp; Digital</option>
+            <option value="service">Jasa &amp; Layanan</option>
+            <option value="retail">Toko &amp; Retail</option>
+            <option value="education">Pendidikan &amp; Kursus</option>
+            <option value="health">Kesehatan &amp; Wellness</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Produk / Layanan Utama <span class="form-hint">(singkat)</span></label>
+          <input type="text" class="form-input" id="bizProduct" placeholder="Contoh: Kopi susu kekinian, Baju batik modern"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Target Pelanggan</label>
+          <input type="text" class="form-input" id="bizTarget" placeholder="Contoh: Anak muda 18-30 tahun, Ibu rumah tangga"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Kesan yang Ingin Ditampilkan <span class="form-hint">(pilih 1-3)</span></label>
+          <div class="chip-group" id="vibeChips">
+            <button class="chip" data-val="modern">Modern</button>
+            <button class="chip" data-val="tradisional">Tradisional</button>
+            <button class="chip" data-val="premium">Premium</button>
+            <button class="chip" data-val="terjangkau">Terjangkau</button>
+            <button class="chip" data-val="playful">Playful</button>
+            <button class="chip" data-val="profesional">Profesional</button>
+            <button class="chip" data-val="natural">Natural</button>
+            <button class="chip" data-val="minimalis">Minimalis</button>
+            <button class="chip" data-val="berani">Berani</button>
+            <button class="chip" data-val="elegan">Elegan</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Nilai Utama Bisnis <span class="form-hint">(opsional)</span></label>
+          <textarea class="form-textarea" id="bizValues" placeholder="Contoh: Menggunakan bahan lokal berkualitas, mendukung petani Indonesia"></textarea>
+        </div>
+
+        <button class="btn-generate" id="btnGenerate">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Buat Identitas Brand
+        </button>
+      </div>
+
+      <!-- OUTPUT -->
+      <div class="output-panel" id="outputPanel">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-state-icon">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="empty-state-title">Belum Ada Brand yang Dibuat</div>
+          <div class="empty-state-desc">Isi informasi bisnis di sebelah kiri, lalu klik "Buat Identitas Brand" untuk mendapatkan nama, tagline, warna, dan font yang cocok untuk bisnis Anda.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="8" fill="#2d7ff9"/><path d="M10 11l8 14 8-14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="11" r="2.5" fill="#93c5fd"/></svg>
+        <span class="footer-brand-text">Venture<span>IQ</span></span>
+      </div>
+      <div class="footer-copy">&copy; 2026 VentureIQ. Dibuat untuk #JuaraVibeCoding</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════
+// BRAND NAME DATABASE
+// ══════════════════════════════════════════
+const nameDatabase = {
+  food: {
+    prefixes: ['Rasa','Dapur','Saji','Sajian','Warung','Nusa','Bumbu','Sedap'],
+    suffixes: ['Nusantara','Kreatif','Sejati','Kita','Prima','Harmoni','Cita','Mulia'],
+    modern: ['Flavora','Gustoq','Bitehaus','Kulina','Savor','Makanku','Eatwell','Cravory'],
+    taglines: [
+      'Cita Rasa yang Menginspirasi',
+      'Dari Dapur, untuk Kebahagiaan',
+      'Kelezatan dalam Setiap Suapan',
+      'Rasa Otentik, Sajian Modern',
+      'Makan Enak Tanpa Ribet'
+    ]
+  },
+  fashion: {
+    prefixes: ['Gaya','Pesona','Kain','Rajut','Busana','Corak','Tenun','Karya'],
+    suffixes: ['Studio','Co','Wear','House','Atelier','Collection','Lab','Mode'],
+    modern: ['Threadline','Styla','Wearcraft','Modeka','Fittura','Clothiq','Drapely','Vestara'],
+    taglines: [
+      'Tampil Beda, Tampil Percaya Diri',
+      'Gaya yang Menceritakan Dirimu',
+      'Style Meets Substance',
+      'Fashion untuk Semua',
+      'Dari Benang Menjadi Karya'
+    ]
+  },
+  beauty: {
+    prefixes: ['Cantik','Aura','Glow','Pesona','Kulit','Cahaya','Seri','Dewi'],
+    suffixes: ['Beauty','Skin','Care','Lab','Glow','Radiance','Bloom','Dew'],
+    modern: ['Luminara','Glowvana','Skinory','Dewdrop','Radianté','Bloomskin','Serafica','Pureglo'],
+    taglines: [
+      'Cantik Alami, Percaya Diri Selalu',
+      'Perawatan yang Kamu Layak Dapatkan',
+      'Kulit Sehat, Hati Senang',
+      'Keindahan dari Dalam',
+      'Glow Up Setiap Hari'
+    ]
+  },
+  craft: {
+    prefixes: ['Karya','Cipta','Tangan','Rajut','Kreasi','Anyam','Ukir','Rupa'],
+    suffixes: ['Craft','Studio','Works','Made','Handmade','Karya','Kreasi','Art'],
+    modern: ['Craftopia','Handwell','Makerly','Artisano','Craftique','Buatanku','Karyaku','Tangani'],
+    taglines: [
+      'Dibuat dengan Cinta, untuk Kamu',
+      'Keindahan Buatan Tangan',
+      'Setiap Karya Punya Cerita',
+      'Handmade, Heartfelt',
+      'Kreativitas Tanpa Batas'
+    ]
+  },
+  tech: {
+    prefixes: ['Digi','Tekno','Byte','Code','Data','Smart','Nex','Core'],
+    suffixes: ['Lab','Hub','Tech','Cloud','Sys','Forge','Stack','Base'],
+    modern: ['Codexa','Nexabit','Teknoq','Digiflow','Bytecraft','Skynode','Appture','Synaxis'],
+    taglines: [
+      'Teknologi untuk Kemajuan',
+      'Solusi Digital yang Tepat Guna',
+      'Inovasi Dimulai dari Sini',
+      'Membangun Masa Depan Digital',
+      'Smart Solutions, Real Impact'
+    ]
+  },
+  service: {
+    prefixes: ['Prima','Andal','Sigap','Mitra','Solusi','Karsa','Bantu','Optima'],
+    suffixes: ['Solutions','Services','Pro','Care','Plus','Works','Connect','Trust'],
+    modern: ['Solvera','Trustmark','Primelink','Carewell','Servica','Swiftaid','Relianto','Mitrapro'],
+    taglines: [
+      'Layanan Terpercaya untuk Anda',
+      'Solusi Tepat di Saat yang Tepat',
+      'Mitra Andal Bisnis Anda',
+      'Profesional, Cepat, Terpercaya',
+      'Kami Ada untuk Membantu'
+    ]
+  },
+  retail: {
+    prefixes: ['Toko','Mart','Store','Belanja','Pasar','Rak','Gudang','Pojok'],
+    suffixes: ['Mart','Store','Shop','Plaza','Hub','Point','Corner','Depot'],
+    modern: ['Shoplix','Storevault','Marketiq','Buywell','Retailo','Shoppyku','Rackhaus','Goodstock'],
+    taglines: [
+      'Belanja Mudah, Harga Bersahabat',
+      'Semua Ada, Semua Lengkap',
+      'Pilihan Cerdas untuk Belanja',
+      'Toko Favoritmu Setiap Hari',
+      'Kualitas Terbaik, Harga Terjangkau'
+    ]
+  },
+  education: {
+    prefixes: ['Edu','Ilmu','Guru','Belajar','Cerdas','Pintar','Ajar','Didik'],
+    suffixes: ['Academy','Lab','Class','Hub','Mentor','Course','School','Center'],
+    modern: ['Edukora','Learnify','Classhub','Mentora','Skillup','Cerdikia','Studyo','Brainhaus'],
+    taglines: [
+      'Belajar Tanpa Batas',
+      'Ilmu untuk Semua',
+      'Tumbuh Bersama, Belajar Bersama',
+      'Pendidikan yang Menginspirasi',
+      'Masa Depan Dimulai dari Belajar'
+    ]
+  },
+  health: {
+    prefixes: ['Sehat','Vita','Bugar','Jiwa','Harmoni','Pulih','Segar','Hidup'],
+    suffixes: ['Care','Wellness','Health','Fit','Life','Vitality','Plus','Balance'],
+    modern: ['Vitaluxe','Wellnova','Fitharmoni','Sehatiq','Bodywise','Healvana','Zencare','Vitaflow'],
+    taglines: [
+      'Sehat Itu Investasi Terbaik',
+      'Hidup Sehat, Hidup Bahagia',
+      'Kesehatanmu, Prioritas Kami',
+      'Tubuh Sehat, Jiwa Kuat',
+      'Wellness untuk Semua'
+    ]
+  }
+};
+
+// ══════════════════════════════════════════
+// COLOR PALETTES
+// ══════════════════════════════════════════
+const palettes = [
+  { name: 'Ocean Trust', colors: ['#1a56db','#3b82f6','#93c5fd','#dbeafe'], vibe: ['profesional','modern','minimalis'] },
+  { name: 'Forest Natural', colors: ['#166534','#22c55e','#86efac','#f0fdf4'], vibe: ['natural','terjangkau','tradisional'] },
+  { name: 'Sunset Bold', colors: ['#c2410c','#f97316','#fdba74','#fff7ed'], vibe: ['berani','playful','modern'] },
+  { name: 'Royal Plum', colors: ['#6b21a8','#a855f7','#d8b4fe','#faf5ff'], vibe: ['premium','elegan','modern'] },
+  { name: 'Rose Elegance', colors: ['#9f1239','#f43f5e','#fda4af','#fff1f2'], vibe: ['elegan','premium','berani'] },
+  { name: 'Earth Warm', colors: ['#78350f','#d97706','#fcd34d','#fffbeb'], vibe: ['tradisional','natural','terjangkau'] },
+  { name: 'Midnight Gold', colors: ['#1e293b','#334155','#f0a500','#fef3c7'], vibe: ['premium','profesional','elegan'] },
+  { name: 'Fresh Mint', colors: ['#065f46','#10b981','#6ee7b7','#ecfdf5'], vibe: ['natural','modern','playful'] },
+  { name: 'Candy Pop', colors: ['#be185d','#ec4899','#f9a8d4','#fdf2f8'], vibe: ['playful','berani','modern'] },
+  { name: 'Slate Pro', colors: ['#1e293b','#475569','#94a3b8','#f1f5f9'], vibe: ['minimalis','profesional','modern'] },
+  { name: 'Terracotta', colors: ['#7c2d12','#ea580c','#fb923c','#fed7aa'], vibe: ['tradisional','natural','premium'] },
+  { name: 'Sky Bright', colors: ['#0369a1','#0ea5e9','#7dd3fc','#e0f2fe'], vibe: ['terjangkau','playful','modern'] },
+];
+
+// ══════════════════════════════════════════
+// FONT PAIRINGS
+// ══════════════════════════════════════════
+const fontPairings = [
+  { heading: 'Sora', body: 'Plus Jakarta Sans', vibe: ['modern','minimalis','profesional'], style: 'Clean & Contemporary' },
+  { heading: 'Playfair Display', body: 'Plus Jakarta Sans', vibe: ['elegan','premium','tradisional'], style: 'Classic & Refined' },
+  { heading: 'Outfit', body: 'Plus Jakarta Sans', vibe: ['playful','modern','terjangkau'], style: 'Friendly & Approachable' },
+  { heading: 'Raleway', body: 'Plus Jakarta Sans', vibe: ['minimalis','modern','elegan'], style: 'Sleek & Sophisticated' },
+  { heading: 'Space Grotesk', body: 'Plus Jakarta Sans', vibe: ['berani','modern','profesional'], style: 'Bold & Technical' },
+  { heading: 'Crimson Pro', body: 'Plus Jakarta Sans', vibe: ['tradisional','natural','premium'], style: 'Warm & Traditional' },
+  { heading: 'Poppins', body: 'Plus Jakarta Sans', vibe: ['playful','terjangkau','modern'], style: 'Fun & Rounded' },
+];
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let selectedVibes = [];
+let selectedName = 0;
+let selectedPalette = 0;
+let selectedFont = 0;
+let generatedNames = [];
+let matchedPalettes = [];
+let matchedFonts = [];
+
+// Vibe chip selection
+document.querySelectorAll('#vibeChips .chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const val = chip.dataset.val;
+    if (chip.classList.contains('selected')) {
+      chip.classList.remove('selected');
+      selectedVibes = selectedVibes.filter(v => v !== val);
+    } else if (selectedVibes.length < 3) {
+      chip.classList.add('selected');
+      selectedVibes.push(val);
+    }
+  });
+});
+
+// ══════════════════════════════════════════
+// GENERATE
+// ══════════════════════════════════════════
+function generateBrandNames(type, vibes) {
+  const db = nameDatabase[type];
+  const results = [];
+  const usedNames = new Set();
+  const isModern = vibes.some(v => ['modern','minimalis','berani','playful'].includes(v));
+  const isTraditional = vibes.some(v => ['tradisional','natural','elegan'].includes(v));
+
+  // Pick 5 unique names
+  function addName(name, tagline, reason) {
+    if (!usedNames.has(name)) {
+      usedNames.add(name);
+      results.push({ name, tagline, reason });
+    }
+  }
+
+  // Modern names
+  if (isModern || (!isTraditional && Math.random() > 0.3)) {
+    const shuffled = [...db.modern].sort(() => Math.random() - 0.5);
+    for (let i = 0; i < Math.min(3, shuffled.length); i++) {
+      addName(shuffled[i], db.taglines[i % db.taglines.length],
+        'Nama yang unik dan mudah diingat. Terdengar modern dan siap digunakan sebagai nama domain atau akun media sosial.');
+    }
+  }
+
+  // Combination names
+  const shuffledPre = [...db.prefixes].sort(() => Math.random() - 0.5);
+  const shuffledSuf = [...db.suffixes].sort(() => Math.random() - 0.5);
+  for (let i = 0; results.length < 5 && i < shuffledPre.length; i++) {
+    const combo = shuffledPre[i] + ' ' + shuffledSuf[i % shuffledSuf.length];
+    addName(combo, db.taglines[(i + 2) % db.taglines.length],
+      'Kombinasi kata yang bermakna dan langsung menjelaskan jenis usaha. Cocok untuk brand yang ingin terasa familiar dan terpercaya.');
+  }
+
+  return results.slice(0, 5);
+}
+
+function matchPalettes(vibes) {
+  if (vibes.length === 0) return palettes.slice(0, 6);
+  const scored = palettes.map(p => {
+    const matchCount = vibes.filter(v => p.vibe.includes(v)).length;
+    return { ...p, score: matchCount + Math.random() * 0.5 };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, 6);
+}
+
+function matchFonts(vibes) {
+  if (vibes.length === 0) return fontPairings.slice(0, 4);
+  const scored = fontPairings.map(f => {
+    const matchCount = vibes.filter(v => f.vibe.includes(v)).length;
+    return { ...f, score: matchCount + Math.random() * 0.3 };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, 4);
+}
+
+// ══════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════
+function renderResults() {
+  const type = document.getElementById('bizType').value;
+  const product = document.getElementById('bizProduct').value.trim();
+  const target = document.getElementById('bizTarget').value.trim();
+
+  if (!product) {
+    alert('Masukkan produk atau layanan utama terlebih dahulu.');
+    return;
+  }
+
+  generatedNames = generateBrandNames(type, selectedVibes);
+  matchedPalettes = matchPalettes(selectedVibes);
+  matchedFonts = matchFonts(selectedVibes);
+  selectedName = 0;
+  selectedPalette = 0;
+  selectedFont = 0;
+
+  const outputPanel = document.getElementById('outputPanel');
+  document.getElementById('emptyState')?.remove();
+
+  outputPanel.innerHTML = `
+    <div class="result-section">
+      <!-- Names -->
+      <div class="names-card">
+        <div class="card-label">Langkah 1</div>
+        <div class="card-title">Pilih Nama Brand</div>
+        <div id="namesList"></div>
+      </div>
+
+      <!-- Palettes -->
+      <div class="palette-card">
+        <div class="card-label">Langkah 2</div>
+        <div class="card-title">Pilih Palet Warna</div>
+        <div class="palette-grid" id="paletteGrid"></div>
+      </div>
+
+      <!-- Fonts -->
+      <div class="font-card">
+        <div class="card-label">Langkah 3</div>
+        <div class="card-title">Pilih Pasangan Font</div>
+        <div class="font-grid" id="fontGrid"></div>
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-section">
+        <div class="names-card" style="padding-bottom:24px;">
+          <div class="card-label">Hasil Akhir</div>
+          <div class="card-title">Preview Identitas Brand</div>
+          <div id="previewContainer"></div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="result-actions">
+        <button class="btn-action secondary" id="btnRegenerate">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          Generate Ulang
+        </button>
+        <button class="btn-action primary" id="btnScreenshot">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Screenshot Hasil
+        </button>
+      </div>
+    </div>
+  `;
+
+  renderNames();
+  renderPalettes();
+  renderFonts();
+  renderPreview();
+
+  document.getElementById('btnRegenerate').addEventListener('click', renderResults);
+  document.getElementById('btnScreenshot').addEventListener('click', () => {
+    alert('Gunakan fitur screenshot bawaan perangkat Anda untuk menyimpan hasil ini.\n\nWindows: Win + Shift + S\nmacOS: Cmd + Shift + 4\nHP: Tombol Power + Volume Down');
+  });
+
+  if (window.innerWidth <= 900) {
+    outputPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function renderNames() {
+  const list = document.getElementById('namesList');
+  list.innerHTML = generatedNames.map((n, i) => `
+    <div class="name-option ${i === selectedName ? 'selected' : ''}" data-idx="${i}">
+      <div class="name-option-name">${n.name}</div>
+      <div class="name-option-tagline">"${n.tagline}"</div>
+      <div class="name-option-reason">${n.reason}</div>
+    </div>
+  `).join('');
+  list.querySelectorAll('.name-option').forEach(el => {
+    el.addEventListener('click', () => {
+      selectedName = parseInt(el.dataset.idx);
+      renderNames();
+      renderPreview();
+    });
+  });
+}
+
+function renderPalettes() {
+  const grid = document.getElementById('paletteGrid');
+  grid.innerHTML = matchedPalettes.map((p, i) => `
+    <div class="palette-item ${i === selectedPalette ? 'selected' : ''}" data-idx="${i}">
+      <div class="palette-colors">
+        ${p.colors.map(c => `<div class="palette-color" style="background:${c}"></div>`).join('')}
+      </div>
+      <div class="palette-name">${p.name}</div>
+      <div class="palette-codes">
+        ${p.colors.map(c => `<span class="palette-code">${c}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.palette-item').forEach(el => {
+    el.addEventListener('click', () => {
+      selectedPalette = parseInt(el.dataset.idx);
+      renderPalettes();
+      renderPreview();
+    });
+  });
+}
+
+function renderFonts() {
+  const grid = document.getElementById('fontGrid');
+  grid.innerHTML = matchedFonts.map((f, i) => `
+    <div class="font-item ${i === selectedFont ? 'selected' : ''}" data-idx="${i}">
+      <div class="font-item-heading" style="font-family:'${f.heading}',sans-serif;font-weight:700;">Heading Text</div>
+      <div class="font-item-body" style="font-family:'${f.body}',sans-serif;">Body text yang digunakan untuk paragraf dan deskripsi produk.</div>
+      <div class="font-item-label">${f.style} — ${f.heading} + ${f.body}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.font-item').forEach(el => {
+    el.addEventListener('click', () => {
+      selectedFont = parseInt(el.dataset.idx);
+      renderFonts();
+      renderPreview();
+    });
+  });
+}
+
+function renderPreview() {
+  const container = document.getElementById('previewContainer');
+  const name = generatedNames[selectedName];
+  const palette = matchedPalettes[selectedPalette];
+  const font = matchedFonts[selectedFont];
+  const initial = name.name.charAt(0).toUpperCase();
+
+  container.innerHTML = `
+    <div class="preview-card">
+      <div class="preview-header" style="background:linear-gradient(135deg,${palette.colors[0]},${palette.colors[1]});">
+        <div class="preview-logo-area">
+          <div class="preview-logo-circle" style="background:${palette.colors[1]};">${initial}</div>
+          <div class="preview-brand-name" style="font-family:'${font.heading}',sans-serif;">${name.name}</div>
+        </div>
+        <div class="preview-tagline" style="font-family:'${font.body}',sans-serif;">${name.tagline}</div>
+        <a class="preview-cta" style="font-family:'${font.body}',sans-serif;">Lihat Selengkapnya</a>
+      </div>
+      <div class="preview-body">
+        <p class="preview-body-text" style="font-family:'${font.body}',sans-serif;">
+          <strong style="font-family:'${font.heading}',sans-serif;color:${palette.colors[0]};">${name.name}</strong> hadir untuk memberikan pengalaman terbaik bagi pelanggan. Dengan komitmen terhadap kualitas dan inovasi, kami siap menjadi pilihan utama Anda.
+        </p>
+        <div class="preview-palette-strip">
+          ${palette.colors.map(c => `<div style="background:${c}"></div>`).join('')}
+        </div>
+      </div>
+      <div class="preview-label">Preview ini menggambarkan bagaimana brand Anda bisa terlihat. Font: ${font.heading} + ${font.body} | Warna: ${palette.name}</div>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════
+// EVENT LISTENERS
+// ══════════════════════════════════════════
+document.getElementById('btnGenerate').addEventListener('click', renderResults);
+
+document.getElementById('navHamburger').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+
+</body>
+</html>
